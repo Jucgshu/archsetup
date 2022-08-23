@@ -68,6 +68,7 @@
         "firewalld",
         "fwupd",
         "gimp",
+        "git",
         "htop",
         "keepassxc",
         "libva-utils",
