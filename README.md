@@ -1,7 +1,5 @@
 # archinstall
 
-## Main files
-
 Some configuration files to ease the Arch installation process.
 
 |File|Description|Reference|
