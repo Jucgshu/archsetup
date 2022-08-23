@@ -80,6 +80,7 @@
         "pacman-contrib",
         "papirus-icon-theme",
         "powertop",
+        "power-profiles-daemon",
         "profile-cleaner",
         "reflector",
         "rsync",
