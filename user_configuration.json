@@ -83,6 +83,7 @@
         "reflector",
         "rsync",
         "simple-scan",
+        "snapper",
         "sshfs",
         "syncthing",
         "telegram-desktop",
