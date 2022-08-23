@@ -4,7 +4,7 @@
 <!-- </div> -->
 # Arch installer tools
 
-Just some files and scripts to ease the Arch installation process. Install a fresh Archlinux system first by using the new [Archinstall](https://github.com/archlinux/archinstall). The [user configuration file](https://github.com/Jucgshu/archinstall/blob/main/user_configuration.json) can be used to speed up the process.
+Just some files and scripts to ease the Arch installation process. Install a fresh Archlinux system first by using the new [Archinstall](https://github.com/archlinux/archinstall) script. The [user configuration file](https://github.com/Jucgshu/archinstall/blob/main/user_configuration.json) can be used to speed up the process.
 
 # Usage
 After installing Archlinux, you can enable systemd-homed:
