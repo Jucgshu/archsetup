@@ -9,7 +9,7 @@
     "harddrives": [
         "/dev/nvme0n1"
     ],
-    "hostname": "br3wal-xps13",
+    "hostname": "My hostname",
     "keyboard-layout": "fr",
     "mirror-region": {
         "France": {
