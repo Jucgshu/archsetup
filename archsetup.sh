@@ -60,9 +60,22 @@ nmcli connection modify $wifi connection.mdns yes
 # ------------------------------------------------------------------------
 
 echo
-echo "Move configuration files"
+echo "Enable Powertop"
 
 sudo mv ./Archlinux/etc/systemd/system/powertop.service /etc/systemd/system/
+sudo systemctl enable --now powertop.service
+
+# ------------------------------------------------------------------------
+
+echo
+echo "Enable Unbound"
+
+sudo mv ./Archlinux/etc/unbound/unbound.conf /etc/unbound/
+sudo mv ./Archlinux/etc/systemd/system/roothints.service /etc/systemd/system/
+sudo mv ./Archlinux/etc/systemd/system/roothints.timer /etc/systemd/system/
+sudo curl --output /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+sudo systemctl enable --now roothints.timer
+sudo systemctl enable --now unbound.service
 
 # ------------------------------------------------------------------------
 
@@ -73,7 +86,6 @@ sudo systemctl enable --now systemd-resolved.service
 sudo systemctl start reflector.service
 sudo systemctl enable --now rngd.service
 sudo systemctl enable --now cpupower.service
-sudo systemctl enable --now powertop.service
 sudo systemctl enable --now firewalld.service
 systemctl --user start syncthing.service
 
