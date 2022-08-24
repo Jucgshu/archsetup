@@ -2,15 +2,9 @@
 # ------------------------------------------------------------------------
 
 echo
-echo "Setting laptop lid close to suspend"
+echo "Fix buggy lid buggy firmware by delegating lid close event to Systemd"
 
 sudo sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
-
-# ------------------------------------------------------------------------
-
-echo
-echo "Fix lid buggy firmware"
-
 sudo sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower.conf
 
 # ------------------------------------------------------------------------
@@ -38,7 +32,7 @@ sudo sed -i 's/$/ i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*li
 # ------------------------------------------------------------------------
 
 echo
-echo "Apply GNOME settings"
+echo "Apply various GNOME settings"
 
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
@@ -54,11 +48,16 @@ echo "Install Yay"
 cd ~/ && git clone https://aur.archlinux.org/yay.git && cd yay
 # ------------------------------------------------------------------------
 
+echo
+echo "Enable services"
+
 sudo systemctl start reflector.service
 sudo systemctl enable --now rngd.service
 sudo systemctl enable --now cpupower.service
 sudo systemctl enable --now firewalld.service
 systemctl --user start syncthing.service
+
+# ------------------------------------------------------------------------
 
 echo "Done!"
 echo
