@@ -60,6 +60,13 @@ nmcli connection modify $wifi connection.mdns yes
 # ------------------------------------------------------------------------
 
 echo
+echo "Move configuration files"
+
+sudo mv ./Archlinux/etc/systemd/system/powertop.service /etc/systemd/system/
+
+# ------------------------------------------------------------------------
+
+echo
 echo "Enable services"
 
 sudo systemctl enable --now systemd-resolved.service
