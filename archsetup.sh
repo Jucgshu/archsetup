@@ -29,6 +29,7 @@ echo
 echo "Add power savings options to boot"
 
 sudo sed -i 's/$/ i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*linux.conf
+
 # ------------------------------------------------------------------------
 
 echo
@@ -40,20 +41,32 @@ gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
 gsettings set org.gnome.desktop.interface icon-theme Papirus
+
 # ------------------------------------------------------------------------
 
 echo
 echo "Install Yay"
 
 cd ~/ && git clone https://aur.archlinux.org/yay.git && cd yay
+
+# ------------------------------------------------------------------------
+
+echo
+echo "Enable mDNS"
+
+read -p "Enter the SSID you wish to connect to: " wifi
+nmcli connection modify $wifi connection.mdns yes
+
 # ------------------------------------------------------------------------
 
 echo
 echo "Enable services"
 
+sudo systemctl enable --now systemd-resolved.service
 sudo systemctl start reflector.service
 sudo systemctl enable --now rngd.service
 sudo systemctl enable --now cpupower.service
+sudo systemctl enable --now powertop.service
 sudo systemctl enable --now firewalld.service
 systemctl --user start syncthing.service
 
