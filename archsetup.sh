@@ -50,7 +50,7 @@ sudo sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower
 
 # ------------------------------------------------------------------------
 
-echo "Applying GNOME & Firefox settings, installing Yay"
+echo "Applying GNOME & Firefox settings, installing Yay and initialize chezmoi"
 
 # Apply various GNOME settings
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
@@ -61,9 +61,13 @@ gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
 gsettings set org.gnome.desktop.interface icon-theme Papirus
 
 # Start with a clean Firefox profile
-read -p "Enter the name of your Firefox profile: " firefox
+read -p "Enter the name of the Firefox profile you wish to create: " firefox
 firefox -CreateProfile $firefox
 cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$firefox
+
+# Copy dotfiles to ~/home
+read -p "Enter the name of your Github user: " github
+chezmoi init https://github.com/$github/dotfiles.git
 
 # Install Yay
 cd ~/ && git clone https://aur.archlinux.org/yay.git && cd yay
