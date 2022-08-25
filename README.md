@@ -9,23 +9,26 @@ Just some files and scripts to ease the Arch installation process. Install a fre
     $ archinstall --config /var/log/archinstall/user_configuration.json --disk-layout <path to disk layout config file or URL> --creds <path to user credentials config file or URL>
 
 # Usage
-After installing Archlinux, you can enable systemd-homed:
+1. After installing Archlinux, you can enable systemd-homed:
 
     $ systemctl enable --now systemd-homed.service
 
-You can then create an admin user:
+1. You can then create an admin user:
 
     $ homectl create MyUser --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+
+1. You should also enable sudo for members of the wheel group by running the `EDITOR=vim visudo` command.
+
+1. Finally, execute the main script:
+
+    $ git pull https://github.com/Jucgshu/archinstall && cd archinstall & chmod +x archsetup.sh && ./archsetup.sh
 
 See Archlinux wiki for details:
 * [Systemd-homed](https://wiki.archlinux.org/title/Systemd-homed)
 * [Users and groups](https://wiki.archlinux.org/title/Users_and_groups)
 * [Btrfs](https://wiki.archlinux.org/title/Btrfs)
 
-You should also enable sudo for members of the wheel group by running the `EDITOR=vim visudo` command.
-
 ## Configuration files to ease the Arch installation process.
-
 |File|Description|Reference|
 |-|-|-|
 |user_configuration.json|Main Arch configuration file, based on archinstall script|[Archinstall](https://github.com/archlinux/archinstall)|
