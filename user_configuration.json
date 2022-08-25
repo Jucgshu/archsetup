@@ -85,6 +85,7 @@
         "power-profiles-daemon",
         "profile-cleaner",
         "reflector",
+        "rng-tools"
         "rsync",
         "simple-scan",
         "snapper",
