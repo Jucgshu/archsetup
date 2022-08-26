@@ -68,6 +68,7 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus
 read -p "Enter the name of the Firefox profile you wish to create: " firefox
 firefox -CreateProfile $firefox
 cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$firefox
+cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$firefox
 
 # Copy dotfiles to ~/home
 read -p "Enter the name of your Github user: " github
