@@ -50,7 +50,11 @@ sudo sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower
 
 # ------------------------------------------------------------------------
 
-echo "Applying GNOME & Firefox settings, installing Yay and initialize chezmoi"
+echo "Applying Pacman, GNOME & Firefox settings, installing Yay and initializing chezmoi"
+
+# Apply Pacman Settings
+sudo sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
+sudo sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
 
 # Apply various GNOME settings
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
