@@ -100,6 +100,11 @@ read -p "Enter the name of your Github user: " github
 chezmoi init https://github.com/$github/dotfiles.git &&
 echo "Chezmoi OK"
 
+# Add UOSC to Mpv
+wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua &&
+wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
+echo "Mpv OK"
+
 # Install Yay
 cd ~/ && git clone https://aur.archlinux.org/yay.git && cd yay &&
 echo "Yay OK" &&
