@@ -11,17 +11,17 @@ Just some files and scripts to ease the Arch installation process. Install a fre
 # Usage
 1. After installing Archlinux, you can enable systemd-homed:
 
-    $ systemctl enable --now systemd-homed.service
+    `$ systemctl enable --now systemd-homed.service`
 
 1. You can then create an admin user:
 
-    $ homectl create MyUser --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+    `$ homectl create MyUser --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume`
 
 1. You should also enable sudo for members of the wheel group by running the `EDITOR=vim visudo` command.
 
-1. Finally, execute the main script:
+1. Reboot, login with your newly created user, and execute the main script:
 
-    $ git pull https://github.com/Jucgshu/archinstall && cd archinstall & chmod +x archsetup.sh && ./archsetup.sh
+    `$ git pull https://github.com/Jucgshu/archinstall && cd archinstall & chmod +x archsetup.sh && ./archsetup.sh`
 
 See Archlinux wiki for details:
 * [Systemd-homed](https://wiki.archlinux.org/title/Systemd-homed)
