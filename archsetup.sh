@@ -3,6 +3,7 @@
 
 echo
 echo "Applying network settings"
+echo
 
 # Enable Unbound
 sudo mv ./Archlinux/etc/unbound/unbound.conf /etc/unbound/
@@ -30,6 +31,7 @@ sudo systemctl restart NetworkManager.service
 
 echo
 echo "Applying hardware settings"
+echo
 
 # Add Trim option to SSD
 sudo sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
@@ -50,13 +52,15 @@ sudo sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower
 
 # ------------------------------------------------------------------------
 
+echo
 echo "Applying Pacman, GNOME & Firefox settings, installing Yay and initializing chezmoi"
+echo
 
 # Apply Pacman Settings
 sudo sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
 sudo sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
 
-#Apply GDM settings
+# Apply GDM settings
 read -p "Enter the name of your Archlinux user" user
 sudo sed -i '/WaylandEnable/aAutomaticLogin=$user' /etc/gdm/custom.conf
 
@@ -85,6 +89,7 @@ cd ~/ && git clone https://aur.archlinux.org/yay.git && cd yay
 
 echo
 echo "Enable other services"
+echo
 
 sudo systemctl enable --now rngd.service
 sudo systemctl enable --now firewalld.service
