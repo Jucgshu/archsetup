@@ -86,8 +86,7 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus &&
 echo "Gnome OK"
 
 # Start with a clean Firefox profile
-read -p "Enter the name of the Firefox profile you wish to create: " firefox
-firefox -CreateProfile $firefox &&
+firefox -CreateProfile $user &&
 cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$firefox &&
 cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$firefox &&
 echo "Firefox OK"
