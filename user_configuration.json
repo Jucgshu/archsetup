@@ -6,10 +6,8 @@
     "debug": false,
     "desktop-environment": "gnome",
     "gfx_driver": "Intel (open-source)",
-    "harddrives": [
-        "/dev/nvme0n1"
-    ],
-    "hostname": "My hostname",
+    "harddrives": [],
+    "hostname": [],
     "keyboard-layout": "fr",
     "mirror-region": {
         "France": {
