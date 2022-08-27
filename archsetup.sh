@@ -45,6 +45,10 @@ echo "Fstab OK"
 sudo sed -i 's/$/ i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*linux.conf &&
 echo "Boot options OK"
 
+# Copy Mkinitcpio file
+sudo cp ./Archlinux/etc/mkinitcpio.conf /etc/mkinitcpio.conf &&
+echo "Mkinitcpio OK"
+
 # Enable CPUPower
 sudo systemctl enable --now cpupower.service &&
 echo "CPUPower OK"
