@@ -56,6 +56,10 @@ echo "Applying Pacman, GNOME & Firefox settings, installing Yay and initializing
 sudo sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
 sudo sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
 
+#Apply GDM settings
+read -p "Enter the name of your Archlinux user" user
+sudo sed -i '/WaylandEnable/aAutomaticLogin=$user' /etc/gdm/custom.conf
+
 # Apply various GNOME settings
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
