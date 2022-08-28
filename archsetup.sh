@@ -22,8 +22,7 @@ sudo systemctl start reflector.service &&
 echo "Reflector OK"
 
 # Enable mDNS
-read -p "Enter the SSID you wish to connect to: " wifi
-nmcli connection modify $wifi connection.mdns yes &&
+nmcli connection modify $(iwgetid -r) connection.mdns yes &&
 echo "mDNS OK"
 
 # Enable services
@@ -76,8 +75,7 @@ sudo sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /
 echo "Pacman OK"
 
 # Apply GDM settings
-read -p "Enter the name of your Archlinux user" user
-sudo sed -i '/WaylandEnable/aAutomaticLogin=$user' /etc/gdm/custom.conf &&
+sudo sed -i "/WaylandEnable/aAutomaticLogin=$USER" /etc/gdm/custom.conf &&
 echo "GDM OK"
 
 # Apply various GNOME settings
@@ -90,9 +88,9 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus &&
 echo "Gnome OK"
 
 # Start with a clean Firefox profile
-firefox -CreateProfile $user &&
-cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$firefox &&
-cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$firefox &&
+firefox -CreateProfile $USER &&
+cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$USER &&
+cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER &&
 echo "Firefox OK"
 
 # Copy dotfiles to ~/home
