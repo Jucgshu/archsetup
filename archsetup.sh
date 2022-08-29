@@ -46,6 +46,7 @@ echo "Boot options OK"
 
 # Copy Mkinitcpio file
 sudo cp ./Archlinux/etc/mkinitcpio.conf /etc/mkinitcpio.conf &&
+sudo mkinitcpio -p linux &&
 echo "Mkinitcpio OK"
 
 # Enable CPUPower
