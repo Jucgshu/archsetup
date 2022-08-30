@@ -81,6 +81,7 @@ echo "Firefox OK"
 # Copy dotfiles to ~/home
 read -p "Enter the name of your Github user: " github
 chezmoi init https://github.com/$github/dotfiles.git &&
+chezmoi update -v &&
 echo "Chezmoi OK"
 
 # Add UOSC to Mpv
