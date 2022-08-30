@@ -59,7 +59,7 @@ echo "All hardware settings have been configured"
 # ------------------------------------------------------------------------
 
 echo
-echo "Applying Pacman settings"
+echo "Applying user settings"
 echo
 
 # Apply Pacman Settings
