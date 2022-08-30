@@ -33,7 +33,9 @@ echo "GDM OK"
 gsettings set org.gnome.shell.app-switcher current-workspace-only true &&
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680 &&
 gsettings set org.gnome.desktop.interface clock-show-date true &&
+gsettings set org.gnome.desktop.interface clock-show-weekday true &&
 gsettings set org.gnome.desktop.calendar show-weekdate true &&
+gsettings set org.gnome.desktop.search-providers disabled ['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop'] &&
 # Apply trackpad settings
 gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none' &&
 gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true &&
@@ -42,6 +44,11 @@ gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation fals
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &&
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true &&
 gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &&
+# Apply wallpapers
+org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg' &&
+org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg' &&
+# Apply icon theme & settings
+gsettings set org.gnome.desktop.background show-desktop-icons false &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
 # Apply fonts settings
 gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12" &&
@@ -50,8 +57,13 @@ gsettings set org.gnome.desktop.interface monospace-font-name "Source Code Pro 1
 gsettings set org.gnome.desktop.interface font-hinting 'medium' &&
 # Apply energy settings
 powerprofilesctl set power-saver &&
-gsettings set org.gnome.desktop.interface show-battery-percentage true
-
+gsettings set org.gnome.desktop.interface show-battery-percentage true &&
+# Apply privacy settings
+org.gnome.desktop.privacy disable-microphone true &&
+org.gnome.desktop.privacy disable-camera true &&
+# Set audio output to 0%
+pactl set-sink-mute @DEFAULT_SINK@ toggle &&
+pactl set-source-mute @DEFAULT_SOURCE@ toggle &&
 echo "Gnome OK"
 
 # Start with a clean Firefox profile
