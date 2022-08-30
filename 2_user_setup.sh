@@ -45,8 +45,8 @@ gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &&
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true &&
 gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &&
 # Apply wallpapers
-org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg' &&
-org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg' &&
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg' &&
+gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg' &&
 # Apply icon theme & settings
 gsettings set org.gnome.desktop.background show-desktop-icons false &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
