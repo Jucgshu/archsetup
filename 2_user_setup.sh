@@ -38,6 +38,7 @@ echo "GDM OK"
 
 # Apply various GNOME settings
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.desktop.interface clock-show-weekday true
@@ -104,5 +105,6 @@ echo "All services have been enabled"
 
 echo "Done!"
 echo
-echo "Reboot now..."
+echo "You can install AUR packages like gnome-browser-connector, oh-my-zsh-git, ttf-meslo-nerd-font-powerlevel10k"
 echo
+echo "You can also install GNOME extensions like https://extensions.gnome.org/extension/3780/ddterm/ https://extensions.gnome.org/extension/2236/night-theme-switcher/ or https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/"
