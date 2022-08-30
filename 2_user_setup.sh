@@ -25,6 +25,13 @@ echo
 echo "Applying GNOME & Firefox settings, installing Yay and initializing chezmoi"
 echo
 
+# Install Yay
+cd ~/ && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si && cd ~/Archinstall &&
+echo "Yay OK"
+
+# Installig extra fonts
+yay ttf-meslo-nerd-font-powerlevel10k &&
+
 # Apply GDM settings
 sudo sed -i "/WaylandEnable/aAutomaticLogin=$USER" /etc/gdm/custom.conf &&
 echo "GDM OK"
@@ -53,7 +60,7 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus &&
 # Apply fonts settings
 gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12" &&
 gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12" &&
-gsettings set org.gnome.desktop.interface monospace-font-name "Source Code Pro 12" &&
+gsettings set org.gnome.desktop.interface monospace-font-name "MesloLGS NF 12" &&
 gsettings set org.gnome.desktop.interface font-hinting 'medium' &&
 # Apply energy settings
 powerprofilesctl set power-saver &&
@@ -81,11 +88,6 @@ echo "Chezmoi OK"
 wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua &&
 wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
 echo "Mpv OK"
-
-# Install Yay
-cd ~/ && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si &&
-echo "Yay OK" &&
-echo "All applications have been configured"
 
 # ------------------------------------------------------------------------
 
