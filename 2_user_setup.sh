@@ -34,6 +34,7 @@ gsettings set org.gnome.shell.app-switcher current-workspace-only true &&
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680 &&
 gsettings set org.gnome.desktop.interface clock-show-date true &&
 gsettings set org.gnome.desktop.calendar show-weekdate true &&
+# Apply trackpad settings
 gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none' &&
 gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true &&
 gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false &&
@@ -42,7 +43,12 @@ gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &&
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true &&
 gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
-# Apply GNOME Energy settings
+# Apply fonts settings
+gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12" &&
+gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12" &&
+gsettings set org.gnome.desktop.interface monospace-font-name "Source Code Pro 12" &&
+gsettings set org.gnome.desktop.interface font-hinting 'medium' &&
+# Apply energy settings
 powerprofilesctl set power-saver &&
 gsettings set org.gnome.desktop.interface show-battery-percentage true
 
