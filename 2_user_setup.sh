@@ -57,6 +57,8 @@ gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/b
 # Apply icon theme & settings
 gsettings set org.gnome.desktop.background show-desktop-icons false &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
+gsettings get org.gnome.shell favorite-apps     
+['firefox.desktop', 'thunderbird.desktop', 'telegramdesktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'io.github.TransmissionRemoteGtk.desktop'] &&
 # Apply fonts settings
 gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12" &&
 gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12" &&
