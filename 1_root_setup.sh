@@ -65,6 +65,7 @@ echo
 # Apply Pacman Settings
 sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf &&
 sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf &&
+cp ./Archlinux/usr/share/libalpm/hooks/pacman-cache-cleanup.hook /usr/share/libalpm/hooks/ &&
 echo "Pacman OK"
 
 # Add members of wheel to /etc/sudoers
