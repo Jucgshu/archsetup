@@ -35,6 +35,12 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 26
 gsettings set org.gnome.desktop.interface clock-show-date true &&
 gsettings set org.gnome.desktop.calendar show-weekdate true &&
 gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none' &&
+gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true &&
+gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false &&
+gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false &&
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &&
+gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true &&
+gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
 echo "Gnome OK"
 
