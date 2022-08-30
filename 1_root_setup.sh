@@ -72,10 +72,5 @@ echo "Pacman OK"
 echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) &&
 echo "Wheel members have been granted with superpowers"
 
-# Create user
-systemctl enable --now systemd-homed.service &&
-read -p "Enter the user you wish to create: " MYUSER
-homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
-
 # Copy wallpapers
 cp ./Wallpapers/adwaita*.jpg /usr/share/backgrounds/gnome/
