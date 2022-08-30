@@ -42,6 +42,7 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 26
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.desktop.interface clock-show-weekday true
 gsettings set org.gnome.desktop.calendar show-weekdate true
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 # Apply trackpad settings
 gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
 gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
