@@ -42,6 +42,10 @@ gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false &&
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true &&
 gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true &&
 gsettings set org.gnome.desktop.interface icon-theme Papirus &&
+# Apply GNOME Energy settings
+powerprofilesctl set power-saver &&
+gsettings set org.gnome.desktop.interface show-battery-percentage true
+
 echo "Gnome OK"
 
 # Start with a clean Firefox profile
