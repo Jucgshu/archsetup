@@ -72,5 +72,8 @@ echo "Pacman OK"
 echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) &&
 echo "Wheel members have been granted with superpowers"
 
+# Enable Firefox Wayland
+echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
+
 # Copy wallpapers
 cp ./Wallpapers/adwaita*.jpg /usr/share/backgrounds/gnome/
