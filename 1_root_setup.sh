@@ -75,3 +75,6 @@ echo "Wheel members have been granted with superpowers"
 systemctl enable --now systemd-homed.service &&
 read -p "Enter the name of the user you wish to create: " MYUSER
 homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+
+# Copy wallpapers
+cp ./Wallpapers/adwaita*.jpg /usr/share/backgrounds/gnome/
