@@ -65,3 +65,7 @@ echo
 sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf &&
 sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf &&
 echo "Pacman OK"
+
+# Add members of wheel to /etc/sudoers
+echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
+echo "Wheel members have been granted with superpowers"
