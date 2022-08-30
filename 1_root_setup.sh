@@ -36,7 +36,7 @@ sed -i '$s/$/i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*linux.c
 echo "Boot options OK"
 
 # Copy Mkinitcpio file
-echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
+echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf &&
 cp ./Archlinux/etc/mkinitcpio.conf /etc/mkinitcpio.conf &&
 mkinitcpio -p linux &&
 echo "Mkinitcpio OK"
@@ -68,12 +68,12 @@ sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/p
 echo "Pacman OK"
 
 # Add members of wheel to /etc/sudoers
-echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
+echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) &&
 echo "Wheel members have been granted with superpowers"
 
 # Create user
 systemctl enable --now systemd-homed.service &&
-read -p "Enter the name of the user you wish to create: " MYUSER
+read -p "Enter the user you wish to create: " MYUSER
 homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
 
 # Copy wallpapers
