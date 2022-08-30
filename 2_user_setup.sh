@@ -105,6 +105,6 @@ echo "All services have been enabled"
 
 echo "Done!"
 echo
-echo "You can install AUR packages like gnome-browser-connector, oh-my-zsh-git, ttf-meslo-nerd-font-powerlevel10k"
+echo "You can install AUR packages like gnome-browser-connector, oh-my-zsh-git, ttf-meslo-nerd-font-powerlevel10k or jellyfin-media-player"
 echo
 echo "You can also install GNOME extensions like https://extensions.gnome.org/extension/3780/ddterm/ https://extensions.gnome.org/extension/2236/night-theme-switcher/ or https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/"
