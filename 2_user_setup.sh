@@ -1,110 +1,149 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
-echo
-echo "Applying network settings"
-echo
-
-# Enable Firewalld
-sudo systemctl enable --now firewalld.service &&
-sudo firewall-cmd --zone=home --change-interface=wlan0 &&
-echo "Firewalld OK"
-
-# Enable mDNS
-nmcli connection modify $(iwgetid -r) connection.mdns yes &&
-echo "mDNS OK"
-
-# Enable services
-sudo systemctl enable --now systemd-resolved.service && echo "Systemd-resolved OK"
-sudo systemctl restart NetworkManager.service &&
-echo "Network has been configured"
+aur=(gnome-browser-connector oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k jellyfin-media-player)
 
 # ------------------------------------------------------------------------
 
-echo
-echo "Applying GNOME & Firefox settings, installing Yay and initializing chezmoi"
-echo
-
-## Install Yay
-#cd ~/ && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si && cd ~/Archinstall &&
-#echo "Yay OK"
-#
-## Installig extra fonts
-#yay ttf-meslo-nerd-font-powerlevel10k &&
-
-# Apply GDM settings
-sudo sed -i "/WaylandEnable/aAutomaticLogin=$USER" /etc/gdm/custom.conf &&
-echo "GDM OK"
-
-# Apply various GNOME settings
-gsettings set org.gnome.shell.app-switcher current-workspace-only true
-gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
-gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
-gsettings set org.gnome.desktop.interface clock-show-date true
-gsettings set org.gnome.desktop.interface clock-show-weekday true
-gsettings set org.gnome.desktop.calendar show-weekdate true
-gsettings set org.gtk.Settings.FileChooser sort-directories-first true
-# Apply trackpad settings
-gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
-gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
-gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false
-gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false
-gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
-gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-# Apply wallpapers
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg'
-gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg'
-# Apply icon theme & settings
-gsettings set org.gnome.desktop.background show-desktop-icons false
-gsettings set org.gnome.desktop.interface icon-theme Papirus
-# Apply fonts settings
-gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12"
-gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12"
-gsettings set org.gnome.desktop.interface monospace-font-name "MesloLGS NF 12"
-gsettings set org.gnome.desktop.interface font-hinting "medium"
-# Apply energy settings
-powerprofilesctl set power-saver
-gsettings set org.gnome.desktop.interface show-battery-percentage true
-# Apply privacy settings
-gsettings set org.gnome.desktop.privacy disable-microphone true
-gsettings set org.gnome.desktop.privacy disable-camera true
-# Set audio output to 0%
-pactl set-sink-mute @DEFAULT_SINK@ toggle
-pactl set-source-mute @DEFAULT_SOURCE@ toggle
-echo "Gnome OK"
-
-# Start with a clean Firefox profile
-firefox -CreateProfile $USER &&
-cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$USER &&
-cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER &&
-echo "Firefox OK"
-
-# Copy dotfiles to ~/home
-read -p "Enter the name of your Github user: " github
-chezmoi init https://github.com/$github/dotfiles.git &&
-chezmoi update -v &&
-echo "Chezmoi OK"
-
-# Add UOSC to Mpv
-wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua &&
-wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
-echo "Mpv OK"
+installYay () {
+  git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+  cd /tmp/yay-bin
+  makepkg -si
+}
 
 # ------------------------------------------------------------------------
 
-echo
-echo "Enable other services"
-echo
-
-sudo systemctl enable --now rngd.service && echo "Rngd OK"
-systemctl --user start syncthing.service && echo "Syncthing OK" &&
-echo "All services have been enabled"
+installYayPackages () {
+  for package in "${aur[@]}"; do
+    yay -S $package
+  done
+}
 
 # ------------------------------------------------------------------------
 
-echo "Done!"
-echo
-echo "You can install AUR packages like gnome-browser-connector, oh-my-zsh-git, ttf-meslo-nerd-font-powerlevel10k or jellyfin-media-player"
-echo
-echo "You can also install GNOME extensions like https://extensions.gnome.org/extension/3780/ddterm/ https://extensions.gnome.org/extension/2236/night-theme-switcher/ or https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/"
+setNetworkSettings () {
+
+  echo "Applying network settings"
+
+  # Enable Firewalld
+  sudo systemctl enable --now firewalld.service
+  sudo firewall-cmd --zone=home --change-interface=wlan0
+
+  # Enable mDNS
+  nmcli connection modify $(iwgetid -r) connection.mdns yes
+
+  # Enable services
+  sudo systemctl enable --now systemd-resolved.service
+  sudo systemctl restart NetworkManager.service
+}
+
+# ------------------------------------------------------------------------
+
+setGnomeSettings () {
+
+  echo "Applying GNOME & Firefox settings, installing Yay and initializing chezmoi"
+
+  # Apply Nautilus settings
+  gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+
+  # Apply night light settings
+  gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+  gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
+
+  # Apply date settings
+  gsettings set org.gnome.desktop.interface clock-show-date true
+  gsettings set org.gnome.desktop.interface clock-show-weekday true
+  gsettings set org.gnome.desktop.calendar show-weekdate true
+
+  # Apply trackpad settings
+  gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
+  gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+  gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false
+  gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false
+  gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+  gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+  gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+
+  # Apply wallpapers
+  gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg'
+  gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg'
+
+  # Apply icon theme & settings
+  gsettings set org.gnome.desktop.background show-desktop-icons false
+  gsettings set org.gnome.desktop.interface icon-theme Papirus
+  gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'telegramdesktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'io.github.TransmissionRemoteGtk.desktop']"
+
+  # Apply fonts settings
+  gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12"
+  gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12"
+  gsettings set org.gnome.desktop.interface monospace-font-name "MesloLGS NF 12"
+  gsettings set org.gnome.desktop.interface font-hinting "medium"
+
+  # Apply energy settings
+  powerprofilesctl set power-saver
+  gsettings set org.gnome.desktop.interface show-battery-percentage true
+
+  # Apply privacy settings
+  gsettings set org.gnome.desktop.privacy disable-microphone true
+  gsettings set org.gnome.desktop.privacy disable-camera true
+
+  # Set audio output to 0%
+  pactl set-sink-mute @DEFAULT_SINK@ toggle
+  pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+  # Apply various GNOME settings
+  gsettings set org.gnome.shell.app-switcher current-workspace-only true
+  gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop']"
+}
+
+# ------------------------------------------------------------------------
+
+setAppsSettings () {
+
+  echo "Apply other applications settings"
+
+  # Apply GDM settings
+  sudo sed -i "/WaylandEnable/aAutomaticLogin=$USER" /etc/gdm/custom.conf
+
+  # Start with a clean Firefox profile
+  firefox -CreateProfile $USER
+  cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$USER
+  cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
+
+  # Copy dotfiles to ~/home
+  chezmoi init https://github.com/$github/dotfiles.git
+  chezmoi update -v
+
+  # Add UOSC to Mpv
+  wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua
+  wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
+}
+
+# ------------------------------------------------------------------------
+
+enableOtherServices () {
+  echo "Enable other services"
+  sudo systemctl enable --now rngd.service
+  systemctl --user start syncthing.service
+}
+
+# ------------------------------------------------------------------------
+
+finalize () {
+  echo "Everthing has been installed and configured"
+  echo ""
+  echo "You can also install GNOME extensions like:"
+  echo " - ddterm: https://extensions.gnome.org/extension/3780/ddterm/"
+  echo " - Night Theme Switcher: https://extensions.gnome.org/extension/2236/night-theme-switcher/"
+  echo " - Archlinux Updates Indicator: https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/"
+}
+
+# ------------------------------------------------------------------------
+
+installYay
+installYayPackages
+setNetworkSettings
+setGnomeSettings
+setAppsSettings
+enableOtherServices
+finalize
