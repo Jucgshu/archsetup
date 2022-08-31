@@ -21,24 +21,6 @@ installYayPackages () {
 
 # ------------------------------------------------------------------------
 
-setNetworkSettings () {
-
-  echo "Applying network settings"
-
-  # Enable Firewalld
-  sudo systemctl enable --now firewalld.service
-  sudo firewall-cmd --zone=home --change-interface=wlan0
-
-  # Enable mDNS
-  nmcli connection modify $(iwgetid -r) connection.mdns yes
-
-  # Enable services
-  sudo systemctl enable --now systemd-resolved.service
-  sudo systemctl restart NetworkManager.service
-}
-
-# ------------------------------------------------------------------------
-
 setGnomeSettings () {
 
   echo "Applying GNOME & Firefox settings, installing Yay and initializing chezmoi"
@@ -102,9 +84,6 @@ setAppsSettings () {
 
   echo "Apply other applications settings"
 
-  # Apply GDM settings
-  sudo sed -i "/WaylandEnable/aAutomaticLogin=$USER" /etc/gdm/custom.conf
-
   # Start with a clean Firefox profile
   firefox -CreateProfile $USER
   cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$USER
@@ -123,7 +102,6 @@ setAppsSettings () {
 
 enableOtherServices () {
   echo "Enable other services"
-  sudo systemctl enable --now rngd.service
   systemctl --user start syncthing.service
 }
 
@@ -142,7 +120,6 @@ finalize () {
 
 installYay
 installYayPackages
-setNetworkSettings
 setGnomeSettings
 setAppsSettings
 enableOtherServices
