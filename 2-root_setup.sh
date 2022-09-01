@@ -29,14 +29,10 @@ setNetworkSettings () {
 
   # Enable Firewalld
   systemctl enable --now firewalld.service
-  firewall-cmd --zone=home --change-interface=wlan0
-
-  # Enable mDNS
-  nmcli connection modify $(iwgetid -r) connection.mdns yes
+  firewall-cmd --zone=home --change-interface=wlan0 --permanent
 
   # Enable services
   systemctl enable --now systemd-resolved.service
-  systemctl restart NetworkManager.service
 }
 
 # ------------------------------------------------------------------------

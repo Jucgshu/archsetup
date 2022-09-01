@@ -107,8 +107,20 @@ enableOtherServices () {
 
 # ------------------------------------------------------------------------
 
+setNetworkSettings () {
+
+  echo "Disable IPv6 & Switching DNS to Unbound"
+  nmcli connection modify $(iwgetid -r) connection.mdns yes
+  nmcli connection modify $(iwgetid -r) ipv6.method "disabled"
+  nmcli connection modify $(iwgetid -r) ipv4.ignore-auto-dns yes
+  nmcli connection modify $(iwgetid -r) ipv4.dns "127.0.0.1"
+  nmcli connection up $(iwgetid -r)
+}
+
+# ------------------------------------------------------------------------
+
 finalize () {
-  echo "Everthing has been installed and configured"
+  echo "Archlinux has been configured"
   echo ""
   echo "You can also install GNOME extensions like:"
   echo " - ddterm: https://extensions.gnome.org/extension/3780/ddterm/"
@@ -123,4 +135,5 @@ installYayPackages
 setGnomeSettings
 setAppsSettings
 enableOtherServices
+setNetworkSettings
 finalize
