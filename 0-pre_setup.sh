@@ -20,7 +20,7 @@ setScriptsSettings () {
 }
 
 startArchinstallScript () {
-  archinstall --config archinstall/user_configuration.json
+  archinstall --config user_configuration.json
 }
 
 enableReflector
