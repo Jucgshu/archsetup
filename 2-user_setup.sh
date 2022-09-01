@@ -90,7 +90,7 @@ setAppsSettings () {
   cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
   # Copy dotfiles to ~/home
-  chezmoi init git@github.com:twpayne/chezmoi.git
+  chezmoi init https://github.com/Jucgshu/dotfiles
   chezmoi update -v
 
   # Add UOSC to Mpv
