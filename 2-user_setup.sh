@@ -86,11 +86,11 @@ setAppsSettings () {
 
   # Start with a clean Firefox profile
   firefox -CreateProfile $USER
-  cp ./Firefox/prefs.js ~/.mozilla/firefox/*.$USER
-  cp ./Firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
+  cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
+  cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
   # Copy dotfiles to ~/home
-  chezmoi init https://github.com/$github/dotfiles.git
+  chezmoi init git@github.com:twpayne/chezmoi.git
   chezmoi update -v
 
   # Add UOSC to Mpv
