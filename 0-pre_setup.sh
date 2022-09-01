@@ -13,7 +13,8 @@ setPacmanSettings () {
   sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
   sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
   pacman -Syy
-  
+}
+
 setScriptsSettings () {
   chmod +x 1-post_setup.sh
 }
