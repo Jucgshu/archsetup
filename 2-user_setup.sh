@@ -84,12 +84,17 @@ setAppsSettings () {
 
   echo "Apply other applications settings"
 
-  # Start with a clean Firefox profile
+  # Create Firefox profile from scratch
   firefox -CreateProfile $USER
+  
+  # Copy Firefox prefs.js, generated with https://ffprofile.com/
   cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
+  
+  # Move Firefox cache to RAM
+  sed -i "s/<id>/$(id -u)/g" prefs.js
   cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
-  # Copy dotfiles to ~/home
+  # Enable chezmoi
   chezmoi init https://github.com/Jucgshu/dotfiles
   chezmoi update
 
