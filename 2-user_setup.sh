@@ -114,12 +114,15 @@ enableOtherServices () {
 
 setNetworkSettings () {
 
-  echo "Disable IPv6 & Switching DNS to Unbound"
-  nmcli connection modify $(iwgetid -r) connection.mdns yes
-  nmcli connection modify $(iwgetid -r) ipv6.method "disabled"
-  nmcli connection modify $(iwgetid -r) ipv4.ignore-auto-dns yes
-  nmcli connection modify $(iwgetid -r) ipv4.dns "127.0.0.1"
-  nmcli connection up $(iwgetid -r)
+  echo "Enable mDNS, disable IPv6 & Switching DNS to Unbound"
+  
+  nmcli -g name,type connection  show  --active | awk -F: '/ethernet|wireless/ { print $1 }' | while read connection
+  do
+    nmcli connection modify "$connection" connection.mdns yes
+    nmcli connection modify "$connection" ipv6.method "disabled"
+    nmcli connection modify "$connection" ipv4.ignore-auto-dns yes
+    nmcli connection modify "$connection" ipv4.dns "127.0.0.1"
+    nmcli connection up "$connection"
 }
 
 # ------------------------------------------------------------------------
