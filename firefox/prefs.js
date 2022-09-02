@@ -6,6 +6,8 @@ user_pref("apz.gtk.kinetic_scroll.delta_mode", 2);
 user_pref("apz.gtk.kinetic_scroll.page_delta_mode_multiplier", "0.4");
 user_pref("beacon.enabled", false);
 user_pref("breakpad.reportURL", "");
+user_pref("browser.cache.disk.enable", true);
+user_pref("browser.cache.disk.parent_directory", "/run/user/<id>/firefox");
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false);
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false);
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false);
