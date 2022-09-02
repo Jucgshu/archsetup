@@ -8,7 +8,7 @@ aur=(gnome-browser-connector oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k jel
 installYay () {
   git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
   cd /tmp/yay-bin
-  makepkg -si
+  makepkg -si	
 }
 
 # ------------------------------------------------------------------------
@@ -91,7 +91,7 @@ setAppsSettings () {
 
   # Copy dotfiles to ~/home
   chezmoi init https://github.com/Jucgshu/dotfiles
-  chezmoi update -v
+  chezmoi update
 
   # Add UOSC to Mpv
   wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua
