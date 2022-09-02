@@ -25,6 +25,7 @@ user_pref("browser.safebrowsing.malware.enabled", false);
 user_pref("browser.safebrowsing.phishing.enabled", false);
 user_pref("browser.selfsupport.url", "");
 user_pref("browser.send_pings", false);
+user_pref("browser.sessionstore.interval", 60000);
 user_pref("browser.sessionstore.privacy_level", 2);
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("browser.tabs.crashReporting.sendReport", false);
