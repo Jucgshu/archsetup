@@ -15,7 +15,7 @@ installYay () {
 
 installYayPackages () {
   for package in "${aur[@]}"; do
-    yay -S $package
+    yay -S $package --noeditmenu --noconfirm --removemake --cleanafter
   done
 }
 
