@@ -13,6 +13,14 @@ installYay () {
 
 # ------------------------------------------------------------------------
 
+setChezMoi () {
+  read -p "Enter your Github username" github
+  chezmoi init https://github.com/$github/dotfiles
+  chezmoi update
+}
+
+# ------------------------------------------------------------------------
+
 installYayPackages () {
   for package in "${aur[@]}"; do
     yay -S $package --noeditmenu --noconfirm --removemake --cleanafter
@@ -94,10 +102,6 @@ setAppsSettings () {
   sed -i "s/<id>/$(id -u)/g" prefs.js
   cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
-  # Enable chezmoi
-  chezmoi init https://github.com/Jucgshu/dotfiles
-  chezmoi update
-
   # Add UOSC to Mpv
   wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua
   wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
@@ -139,6 +143,7 @@ finalize () {
 # ------------------------------------------------------------------------
 
 installYay
+setChezMoi
 installYayPackages
 setGnomeSettings
 setAppsSettings
