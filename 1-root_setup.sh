@@ -87,6 +87,7 @@ setUserSettings () {
   sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
   sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
   cp ./archlinux/pacman-cache-cleanup.hook /usr/share/libalpm/hooks/
+  cp ./archlinux/pacman-mirrorlist-cleanup.hook /usr/share/libalpm/hooks/
 
   # Add members of wheel to /etc/sudoers
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
