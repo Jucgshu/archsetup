@@ -55,6 +55,7 @@
         "type": "nm"
     },
     "packages": [
+        "acpi",
         "audacity",
         "awesome-terminal-fonts",
         "calibre",
