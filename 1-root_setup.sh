@@ -96,6 +96,9 @@ setUserSettings () {
   # Enable Firefox Wayland
   echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
 
+  # Allow user to access a mounted fuse
+  sed -i -e 's|[# ]*user_allow_other|user_allow_other|g' /etc/fuse.conf
+
   # Copy wallpapers
   cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
   }
