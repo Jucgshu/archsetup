@@ -4,9 +4,9 @@
 <!-- </div> -->
 # Arch installer tools
 
-Just some files and scripts to ease the Arch installation process. Install a fresh Archlinux system first by using the new [Archinstall](https://github.com/archlinux/archinstall) script. *(**Note**: the script must be run from an Archlinux live ISO booted into EFI mode)*. The [user configuration file](https://github.com/Jucgshu/archinstall/blob/main/user_configuration.json) can be used to speed up the process. This repo consists in 3 main scripts. First one `0-pre_setup.sh` is optional, and might become useless eventually.
+Just some files and scripts to ease the Arch installation process. Install a fresh Archlinux system first by using the new [Archinstall](https://github.com/archlinux/archinstall) script. *(**Note**: the script must be run from an Archlinux live ISO booted into EFI mode)*. The [user configuration file](https://github.com/Jucgshu/archinstall/blob/main/user_configuration.json) can be used to speed up the process. This repo consists in 3 main scripts. The first one is optional `0-pre_setup.sh`, and might become useless eventually.
 
-Once repo has been cloned or copied from repository, you can start Archlinux installation by running:
+Once repo has been cloned or copied , you can start the Archlinux installation process by running:
 
     $ archinstall --config ./archsetup/user_configuration.json
 
@@ -22,9 +22,9 @@ Once repo has been cloned or copied from repository, you can start Archlinux ins
     `.2-user_setup.sh`
 
 See Archlinux wiki for details:
-* [Systemd-boot] (https://wiki.archlinux.org/title/Systemd-boot)
+* [Systemd-boot](https://wiki.archlinux.org/title/Systemd-boot)
 * [Systemd-homed](https://wiki.archlinux.org/title/Systemd-homed)
 * [Users and groups](https://wiki.archlinux.org/title/Users_and_groups)
 * [Btrfs](https://wiki.archlinux.org/title/Btrfs)
-* [GNOME] (https://wiki.archlinux.org/title/Gnome)
-* [Firefox] (https://wiki.archlinux.org/title/Firefox)
+* [GNOME](https://wiki.archlinux.org/title/Gnome)
+* [Firefox](https://wiki.archlinux.org/title/Firefox)
