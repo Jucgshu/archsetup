@@ -102,7 +102,8 @@ setAppsSettings () {
   sed -i "s/<id>/$(id -u)/g" prefs.js
   cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
-  # Add UOSC to Mpv
+  # Copy Mpv config giles and add UOSC
+  cp ./archlinux/mpv/* ~/.config/mpv/
   wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua
   wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
 }
