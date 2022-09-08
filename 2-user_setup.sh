@@ -60,6 +60,7 @@ setGnomeSettings () {
 
   # Apply icon theme & settings
   gsettings set org.gnome.desktop.background show-desktop-icons false
+  gsettings set org.gnome.desktop.interface enable-hot-corners false
   gsettings set org.gnome.desktop.interface icon-theme Papirus
   gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'telegramdesktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'io.github.TransmissionRemoteGtk.desktop']"
 
