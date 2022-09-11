@@ -76,6 +76,9 @@ setHardwareSettings () {
   # Enable Systemd-Oomd
   systemctl enable --now systemd-oomd.service
 
+  # Enable building from files in memory
+  sudo sed -i -e 's|[# ]*BUILDDIR[ ]*=[ ]*.*|BUILDDIR=/tmp/makepkg|g' /etc/makepkg.conf
+
   # Enable RNG daemon
   systemctl enable --now rngd.service
 }
