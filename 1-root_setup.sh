@@ -73,6 +73,9 @@ setHardwareSettings () {
   sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
   sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower.conf
   
+  # Enable Systemd-Oomd
+  systemctl enable --now systemd-oomd.service
+
   # Enable RNG daemon
   systemctl enable --now rngd.service
 }
