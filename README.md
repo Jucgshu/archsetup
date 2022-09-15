@@ -15,11 +15,11 @@ Once repo has been cloned or copied , you can start the Archlinux installation p
 # Usage
 1. After installing Archlinux, connect as root and execute 1st script. It will create the main admin user, enable various services and tweak the system to my likings (by enabling hardware acceleration for example):
 
-    `./1-root_setup.sh`
+    `# ./1-root_setup.sh`
 
 1. Once the first script has finished its job, you can log into Gnome and run the second script from the GUI (as normal user). It will install Yay and AUR packages defined in the array, tweak some settings such as Gnome settings, Firefox or connection settings (mDNS...), and initialize chezmoi for managing dotfiles:
 
-    `.2-user_setup.sh`
+    `# .2-user_setup.sh`
 
 See Archlinux wiki for details:
 * [Systemd-boot](https://wiki.archlinux.org/title/Systemd-boot)
