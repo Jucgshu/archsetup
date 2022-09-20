@@ -49,6 +49,15 @@ setNetworkSettings () {
 
 setHardwareSettings () {
   
+  echo "Select your computer chassis"
+  select chassis in "Laptop" "Desktop" "Server"; do
+    case $chassis in
+      Laptop ) hostnamectl chassis laptop; break;;
+      Desktop ) hostnamectl chassis desktop; break;;
+      Server ) hostnamectl chassis server; break;;
+    esac
+  done
+
   echo "Applying hardware settings"
 
   # Add Trim option to SSD
@@ -69,17 +78,6 @@ setHardwareSettings () {
   echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
   cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
   mkinitcpio -p linux
-
-  # Enable CPUPower
-  systemctl enable --now cpupower.service
-
-  # Enable Powertop
-  cp ./archlinux/powertop.service /etc/systemd/system/
-  systemctl enable --now powertop.service
-
-  # Fix buggy lid buggy firmware by delegating lid close event to Systemd
-  sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
-  sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower.conf
   
   # Enable Systemd-Oomd
   systemctl enable --now systemd-oomd.service
@@ -89,6 +87,20 @@ setHardwareSettings () {
 
   # Enable RNG daemon
   systemctl enable --now rngd.service
+
+  # Apply Laptop specific settings
+  if [ $(hostnamectl chassis) == laptop] ; then
+    # Enable CPUPower
+    systemctl enable --now cpupower.service
+
+    # Enable Powertop
+    cp ./archlinux/powertop.service /etc/systemd/system/
+    systemctl enable --now powertop.service
+
+    # Fix buggy lid buggy firmware by delegating lid close event to Systemd
+    sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
+    sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower.conf
+  fi
 }
 
 # ------------------------------------------------------------------------
