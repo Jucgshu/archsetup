@@ -52,7 +52,13 @@ setHardwareSettings () {
   echo "Applying hardware settings"
 
   # Add Trim option to SSD
-  sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
+  if [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == btrfs ]
+  then
+    sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
+  elif [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == f2fs ]
+  then
+    sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
+  fi
 
   # Add power savings options to boot
   sed -i '$s/$/i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*linux.conf
