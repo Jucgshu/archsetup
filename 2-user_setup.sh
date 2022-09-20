@@ -31,7 +31,7 @@ installYayPackages () {
 
 setGnomeSettings () {
 
-  echo "Applying GNOME & Firefox settings, installing Yay and initializing chezmoi"
+  echo "Applying GNOME settings"
 
   # Apply Nautilus settings
   gsettings set org.gtk.Settings.FileChooser sort-directories-first true
