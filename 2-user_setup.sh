@@ -104,9 +104,13 @@ setAppsSettings () {
   cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
   # Copy Mpv config files and add UOSC
+  mkdir ~/.config/mpv
   cp ./archlinux/mpv/* ~/.config/mpv/
-  wget -NP ~/.config/mpv/scripts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.lua
-  wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
+  wget -NP /tmp/uosc https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip
+  cd /tmp/uosc
+  unzip uosc.zip
+  rm uosc.zip
+  cp -Rf * ~/.config/mpv/
 }
 
 # ------------------------------------------------------------------------
