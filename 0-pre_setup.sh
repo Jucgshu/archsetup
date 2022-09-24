@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
-enableReflector () {
+setReflectorSettings () {
   echo "Enable Reflector"
   sed -i -e 's|[# ]*--country[ ]* [ ]*.*|--country France,Germany|g' /etc/xdg/reflector/reflector.conf
   sed -i -e 's|[# ]*--protocol[ ]* [ ]*.*|--protocol https|g' /etc/xdg/reflector/reflector.conf
@@ -15,15 +15,10 @@ setPacmanSettings () {
   pacman -Syy
 }
 
-setScriptsSettings () {
-  chmod +x 1-post_setup.sh
-}
-
 startArchinstallScript () {
   archinstall --config user_configuration.json
 }
 
-enableReflector
+setReflectorSettings
 setPacmanSettings
-setScriptsSettings
 startArchinstallScript
