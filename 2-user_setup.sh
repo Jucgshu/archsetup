@@ -112,6 +112,10 @@ setAppsSettings () {
   unzip uosc.zip
   rm uosc.zip
   cp -Rf * ~/.config/mpv/
+  # Tweak UOSC
+  sed -i -e 's|[# ]*timeline_style[ ]*=[ ]*.*|timeline_style=line|g' ~/.config/mpv/script-opts/uosc.conf
+  sed -i -e 's|[# ]*timeline_size_max_fullscreen[ ]*=[ ]*.*|timeline_size_max_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
+  sed -i -e 's|[# ]*volume_size_fullscreen[ ]*=[ ]*.*|volume_size_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
 }
 
 # ------------------------------------------------------------------------
