@@ -90,11 +90,19 @@ setGnomeSettings () {
 # ------------------------------------------------------------------------
 
 setGnomeExtensions () {
-  # Download ddterm
+
+  # Install ddterm
   wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip
   gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip
   gnome-extensions enable ddterm@amezin.github.com
   cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
+
+  # Install Arch-update
+  wget -NP /tmp/ddterm https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip 
+  gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip
+  gnome-extensions enable arch-update@RaphaelRochet
+  cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+
 }
 
 # ------------------------------------------------------------------------
