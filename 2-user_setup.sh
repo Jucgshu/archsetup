@@ -89,6 +89,16 @@ setGnomeSettings () {
 
 # ------------------------------------------------------------------------
 
+setGnomeExtensions () {
+  # Download ddterm
+  wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip
+  gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip
+  gnome-extensions enable ddterm@amezin.github.com
+  cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
+}
+
+# ------------------------------------------------------------------------
+
 setAppsSettings () {
 
   echo "Apply other applications settings"
@@ -138,6 +148,7 @@ setNetworkSettings () {
     nmcli connection modify "$connection" ipv4.ignore-auto-dns yes
     nmcli connection modify "$connection" ipv4.dns "127.0.0.1"
     nmcli connection up "$connection"
+  done
 }
 
 # ------------------------------------------------------------------------
@@ -157,6 +168,7 @@ installYay
 setChezMoi
 installYayPackages
 setGnomeSettings
+setGnomeExtensions
 setAppsSettings
 enableOtherServices
 setNetworkSettings
