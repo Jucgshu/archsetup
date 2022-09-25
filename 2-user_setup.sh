@@ -98,7 +98,7 @@ setGnomeExtensions () {
   cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
 
   # Install Arch-update
-  wget -NP /tmp/ddterm https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip 
+  wget -NP /tmp/arch-update https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip 
   gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip
   gnome-extensions enable arch-update@RaphaelRochet
   cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
