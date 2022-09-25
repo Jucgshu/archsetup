@@ -16,7 +16,7 @@ setPacmanSettings () {
 }
 
 startArchinstallScript () {
-  archinstall --config user_configuration.json
+  archinstall --no-pkg-lookups --config user_configuration.json
 }
 
 setReflectorSettings
