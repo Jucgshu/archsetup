@@ -102,7 +102,6 @@ setGnomeExtensions () {
   gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip
   gnome-extensions enable arch-update@RaphaelRochet
   cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
-
 }
 
 # ------------------------------------------------------------------------
