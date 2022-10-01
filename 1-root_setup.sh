@@ -71,7 +71,7 @@ setHardwareSettings () {
   if $(pacman -Qi grub &>/dev/null); then
     echo ""
   else
-    sed -i '$s/$/i915.enable_rc6=1 i915.enable_psr=2/' /boot/loader/entries/*linux.conf
+    sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
   fi
 
   # Copy Mkinitcpio file
