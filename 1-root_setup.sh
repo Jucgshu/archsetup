@@ -5,8 +5,12 @@ createUser () {
   echo "Create main user"
   systemctl enable --now systemd-homed.service
   read -p "User you wish to create" MYUSER
-  homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
-  sed -i "/WaylandEnable/aAutomaticLogin=$MYUSER" /etc/gdm/custom.conf
+  if [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == btrfs ];  then
+    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+  elif [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == f2fs ]; then
+    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=fscrypt
+  fi
+  sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf
 }
 
 # ------------------------------------------------------------------------
