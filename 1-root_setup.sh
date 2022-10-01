@@ -93,7 +93,7 @@ setHardwareSettings () {
   systemctl enable --now rngd.service
 
   # Apply Laptop specific settings
-  if [ $(hostnamectl chassis) == laptop] ; then
+  if [ $(hostnamectl chassis) == laptop ] ; then
     # Enable CPUPower
     systemctl enable --now cpupower.service
 
