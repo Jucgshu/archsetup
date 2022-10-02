@@ -8,7 +8,7 @@ createUser () {
   if [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == btrfs ];  then
     homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
   elif [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == f2fs ]; then
-    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=fscrypt
+    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel
   fi
   sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf
 }
