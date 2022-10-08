@@ -76,6 +76,7 @@ setHardwareSettings () {
     echo ""
   else
     sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
+    echo "timeout 0" >> /boot/loader/loader.conf
   fi
 
   # Copy Mkinitcpio file
