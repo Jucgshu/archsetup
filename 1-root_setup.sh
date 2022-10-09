@@ -154,7 +154,7 @@ setNetworkSettings () {
   systemctl enable --now systemd-resolved.service
 
   # Check Function
-  if systemctl is-active --quiet firewalld.service && systemctl is-active --quiet systemd-resolved.service; then
+  if (systemctl is-active --quiet firewalld.service || systemctl is-active --quiet ufw.service) && systemctl is-active --quiet systemd-resolved.service; then
     echo "Set network settings: OK"
   else
     echo "Set network settings: Error"
@@ -177,14 +177,18 @@ setUserSettings () {
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
   echo "Wheel members have been granted with superpowers"
 
-  #--- Enable Firefox Wayland
-  echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
+  #--- Apply Laptop specific settings
 
-  #--- Allow user to access a mounted fuse
-  sed -i -e 's|[# ]*user_allow_other|user_allow_other|g' /etc/fuse.conf
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    #--- Enable Firefox Wayland
+    echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
 
-  #--- Copy wallpapers
-  cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
+    #--- Allow user to access a mounted fuse
+    sed -i -e 's|[# ]*user_allow_other|user_allow_other|g' /etc/fuse.conf
+
+    #--- Copy wallpapers
+    cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
+  fi
   }
 
 # ------------------------------------------------------------------------
