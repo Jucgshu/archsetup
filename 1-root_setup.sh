@@ -5,7 +5,7 @@ createUser () {
   
   echo "Create main user"
   systemctl enable --now systemd-homed.service >/dev/null 2>&1
-  read -p "User you wish to create" MYUSER
+  read -p "User you wish to create: " MYUSER
   if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
     homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume >/dev/null 2>&1
   elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
