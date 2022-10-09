@@ -44,11 +44,20 @@ enableUnbound () {
 # ------------------------------------------------------------------------
 
 enableReflector () {
+
+  # Main function
   echo "Enable Reflector"
   sed -i -e 's|[# ]*--country[ ]* [ ]*.*|--country France,Germany|g' /etc/xdg/reflector/reflector.conf
   sed -i -e 's|[# ]*--protocol[ ]* [ ]*.*|--protocol https|g' /etc/xdg/reflector/reflector.conf
   sed -i -e 's|[# ]*--latest[ ]* [ ]*.*|--latest 5|g' /etc/xdg/reflector/reflector.conf
-  systemctl start reflector.service
+  systemctl start reflector.service >/dev/null 2>&1
+
+  # Check Function
+  if grep -q "country France,Germany" /etc/xdg/reflector/reflector.conf && grep -q "protocol https" /etc/xdg/reflector/reflector.conf && grep -q "latest 5" /etc/xdg/reflector/reflector.conf; then
+    echo "Enable Reflector: OK"
+  else
+    echo "Enable Reflector: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
