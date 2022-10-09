@@ -112,8 +112,10 @@ setHardwareSettings () {
   #--- Apply Laptop specific settings
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     #-- Enable CPUPower
+    pacman -S --noconfirm cpupower power-profiles-daemon >/dev/null 2>&1
     systemctl enable --now cpupower.service >/dev/null 2>&1
     #-- Enable Powertop
+    pacman -S --noconfirm powertop >/dev/null 2>&1
     cp ./archlinux/powertop.service /etc/systemd/system/
     systemctl enable --now powertop.service >/dev/null 2>&1
     #-- Fix buggy lid buggy firmware by delegating lid close event to Systemd
@@ -173,7 +175,7 @@ setUserSettings () {
   cp ./archlinux/pacman-mirrorlist-cleanup.hook /usr/share/libalpm/hooks/
 
   #--- Add members of wheel to /etc/sudoers
-  echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
+  echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) >/dev/null 2>&1
 
   #--- Apply Laptop specific settings
 
