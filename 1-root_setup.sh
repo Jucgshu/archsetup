@@ -63,12 +63,19 @@ enableReflector () {
 
 setNetworkSettings () {
 
-  # Enable Firewalld
+  # Main Function
+  #-- Enable Firewalld
   systemctl enable --now firewalld.service
   firewall-cmd --zone=home --change-interface=wlan0 --permanent
-
-  # Enable services
+  #-- Enable services
   systemctl enable --now systemd-resolved.service
+
+  # Check Function
+  if systemctl is-active --quiet firewalld.service && systemctl is-active --quiet systemd-resolved.service; then
+    echo "Set network settings: OK"
+  else
+    echo "Set network settings: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
