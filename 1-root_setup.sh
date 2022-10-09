@@ -18,7 +18,6 @@ createUser () {
 # ------------------------------------------------------------------------
 
 enableUnbound () {
-  echo "Enable Unbound"
   cp ./archlinux/unbound.conf /etc/unbound/
   cp ./archlinux/roothints.service /etc/systemd/system/
   cp ./archlinux/roothints.timer /etc/systemd/system/
@@ -28,9 +27,9 @@ enableUnbound () {
 
   # Check function
   if [[ -f /etc/unbound/unbound.conf && -f /etc/systemd/system/roothints.service && -f /etc/systemd/system/roothints.timer ]] && systemctl is-active --quiet unbound.service && systemctl is-active --quiet roothints.timer; then
-    echo "Create user: OK"
+    echo "Enable Unbound: OK"
   else
-    echo "Create user: Error"
+    echo "Enable Unbound: Error"
   fi
 }
 
