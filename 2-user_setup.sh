@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
-pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox firefox-i18n-fr gimp keepassxc libva-utils mediaelch mpv musescore papirus-icon-theme profile-cleaner simple-scan syncthing telegram-desktop thunderbird thunderbird-i18n-fr transmission-remote-gtk ttf-font-awesome ttf-roboto wol)
-aur=(gnome-browser-connector oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k jellyfin-media-player)
+pacman_pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox firefox-i18n-fr gimp keepassxc libva-utils mediaelch mpv musescore papirus-icon-theme profile-cleaner simple-scan syncthing telegram-desktop thunderbird thunderbird-i18n-fr transmission-remote-gtk ttf-font-awesome ttf-roboto wol)
+aur_base=(oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k)
+aur_extra=(gnome-browser-connector jellyfin-media-player)
 
 # ------------------------------------------------------------------------
 
 installPacmanPackages () {
-  for package in "${pkg[@]}"; do
-    pacman -S "$package" --noconfirm >/dev/null 2>&1
-  done
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    for package in "${pacman_pkg[@]}"; do
+      pacman -S "$package" --noconfirm >/dev/null 2>&1
+    done
+  fi
   echo "Install Pacman packages: OK"
 }
 
@@ -33,9 +36,19 @@ installYay () {
 # ------------------------------------------------------------------------
 
 installYayPackages () {
-  for package in "${aur[@]}"; do
+
+  # Install common AUR packages
+  for package in "${aur_base[@]}"; do
     yay -S "$package" --noeditmenu --noconfirm --removemake --cleanafter >/dev/null 2>&1
   done
+
+  # Install AUR packages for laptop
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    for package in "${aur_extra[@]}"; do
+      yay -S "$package" --noeditmenu --noconfirm --removemake --cleanafter >/dev/null 2>&1
+    done
+  fi
+
   echo "Install AUR packages: OK"
 }
 
