@@ -2,15 +2,23 @@
 # ------------------------------------------------------------------------
 
 createUser () {
+  
   echo "Create main user"
-  systemctl enable --now systemd-homed.service
+  systemctl enable --now systemd-homed.service >/dev/null 2>&1
   read -p "User you wish to create" MYUSER
   if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
-    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume >/dev/null 2>&1
   elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
-    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel
+    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel >/dev/null 2>&1
   fi
-  sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf
+  sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf >/dev/null 2>&1
+
+  # Check function
+  if [[ -f /etc/unbound/unbound.conf && -f /etc/systemd/system/roothints.service && -f /etc/systemd/system/roothints.timer ]] && systemctl is-active --quiet unbound.service && systemctl is-active --quiet roothints.timer; then
+    echo "Create user: OK"
+  else
+    echo "Create user: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
