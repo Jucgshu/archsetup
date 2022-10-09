@@ -57,7 +57,11 @@ installYayPackages () {
     done
   fi
 
-  echo "Install AUR packages: OK"
+  # Check function
+  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
+    echo "Install AUR packages: OK"
+  else
+    echo "Install AUR packages: Error"
 }
 
 # ------------------------------------------------------------------------
@@ -66,6 +70,8 @@ setChezMoi () {
   read -p "Enter your Github username" github
   chezmoi init https://github.com/$github/dotfiles >/dev/null 2>&1
   chezmoi update >/dev/null 2>&1
+
+  echo "Set chezmoi: OK"
 }
 
 # ------------------------------------------------------------------------
@@ -133,54 +139,63 @@ setGnomeSettings () {
 
 setGnomeExtensions () {
 
-  # Install ddterm
-  wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
-  gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
-  gnome-extensions enable ddterm@amezin.github.com >/dev/null 2>&1
-  cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
 
-  # Install Arch-update
-  wget -NP /tmp/arch-update https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip >/dev/null 2>&1
-  gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip >/dev/null 2>&1
-  gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
-  cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+    # Install ddterm
+    wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
+    gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
+    gnome-extensions enable ddterm@amezin.github.com >/dev/null 2>&1
+    cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
+
+    # Install Arch-update
+    wget -NP /tmp/arch-update https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip >/dev/null 2>&1
+    gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip >/dev/null 2>&1
+    gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
+    cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+  fi
 }
 
 # ------------------------------------------------------------------------
 
 setAppsSettings () {
 
-  # Create Firefox profile from scratch
-  firefox -CreateProfile "$USER"
-  
-  # Copy Firefox prefs.js, generated with https://ffprofile.com/
-  cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
-  
-  # Move Firefox cache to RAM
-  sed -i "s/<id>/$(id -u)/g" prefs.js
-  cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
 
-  # Copy Mpv config files
-  mkdir ~/.config/mpv
-  cp ./archlinux/mpv/* ~/.config/mpv/
+    # Create Firefox profile from scratch
+    firefox -CreateProfile "$USER"
+  
+    # Copy Firefox prefs.js, generated with https://ffprofile.com/
+    cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
+  
+    # Move Firefox cache to RAM
+    sed -i "s/<id>/$(id -u)/g" prefs.js
+    cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
-  # Download and configure UOSC
-  wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf >/dev/null 2>&1
-  wget -NP /tmp/uosc https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip >/dev/null 2>&1
-  cd /tmp/uosc || exit
-  unzip uosc.zip >/dev/null 2>&1
-  rm uosc.zip
-  cp -Rf /tmp/uosc/* ~/.config/mpv/
-  # Tweak UOSC config a bit
-  sed -i -e 's|[# ]*timeline_style[ ]*=[ ]*.*|timeline_style=line|g' ~/.config/mpv/script-opts/uosc.conf
-  sed -i -e 's|[# ]*timeline_size_max_fullscreen[ ]*=[ ]*.*|timeline_size_max_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
-  sed -i -e 's|[# ]*volume_size_fullscreen[ ]*=[ ]*.*|volume_size_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
+    # Copy Mpv config files
+    mkdir ~/.config/mpv
+    cp ./archlinux/mpv/* ~/.config/mpv/
+
+    # Download and configure UOSC
+    wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf >/dev/null 2>&1
+    wget -NP /tmp/uosc https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip >/dev/null 2>&1
+    cd /tmp/uosc || exit
+    unzip uosc.zip >/dev/null 2>&1
+    rm uosc.zip
+    cp -Rf /tmp/uosc/* ~/.config/mpv/
+    # Tweak UOSC config a bit
+    sed -i -e 's|[# ]*timeline_style[ ]*=[ ]*.*|timeline_style=line|g' ~/.config/mpv/script-opts/uosc.conf
+    sed -i -e 's|[# ]*timeline_size_max_fullscreen[ ]*=[ ]*.*|timeline_size_max_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
+    sed -i -e 's|[# ]*volume_size_fullscreen[ ]*=[ ]*.*|volume_size_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
+  fi
 }
 
 # ------------------------------------------------------------------------
 
 enableOtherServices () {
-  systemctl --user start syncthing.service
+
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    systemctl --user start syncthing.service
+  fi
 }
 
 # ------------------------------------------------------------------------
