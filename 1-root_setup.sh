@@ -82,9 +82,9 @@ setHardwareSettings () {
   # Main Function
 
   #--- Add Trim option to SSD
-  if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
+  if [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == btrfs ];  then
     sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
-  elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
+  elif [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == f2fs ]; then
     sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
   fi
 
@@ -123,7 +123,11 @@ setHardwareSettings () {
   fi
 
   # Check Function
-
+  if systemctl is-active --quiet systemd-oomd.service && systemctl is-active --quiet rngd.service; then
+    echo "Hardware settings: OK"
+  else
+    echo "Hardware settings: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
