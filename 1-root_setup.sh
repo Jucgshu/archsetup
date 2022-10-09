@@ -13,12 +13,6 @@ createUser () {
   fi
   sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf >/dev/null 2>&1
 
-  # Check function
-  if [[ -f /etc/unbound/unbound.conf && -f /etc/systemd/system/roothints.service && -f /etc/systemd/system/roothints.timer ]] && systemctl is-active --quiet unbound.service && systemctl is-active --quiet roothints.timer; then
-    echo "Create user: OK"
-  else
-    echo "Create user: Error"
-  fi
 }
 
 # ------------------------------------------------------------------------
@@ -28,9 +22,16 @@ enableUnbound () {
   cp ./archlinux/unbound.conf /etc/unbound/
   cp ./archlinux/roothints.service /etc/systemd/system/
   cp ./archlinux/roothints.timer /etc/systemd/system/
-  curl --output /etc/unbound/root.hints https://www.internic.net/domain/named.cache
-  systemctl enable --now roothints.timer
-  systemctl enable --now unbound.service
+  curl --output /etc/unbound/root.hints https://www.internic.net/domain/named.cache >/dev/null 2>&1
+  systemctl enable --now roothints.timer >/dev/null 2>&1
+  systemctl enable --now unbound.service >/dev/null 2>&1
+
+  # Check function
+  if [[ -f /etc/unbound/unbound.conf && -f /etc/systemd/system/roothints.service && -f /etc/systemd/system/roothints.timer ]] && systemctl is-active --quiet unbound.service && systemctl is-active --quiet roothints.timer; then
+    echo "Create user: OK"
+  else
+    echo "Create user: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
