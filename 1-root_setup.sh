@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
+getVariables () {
+    select CHASSIS in "Laptop" "Desktop" "Server"; do
+    case $CHASSIS in
+      Laptop ) hostnamectl chassis laptop; break;;
+      Desktop ) hostnamectl chassis desktop; break;;
+      Server ) hostnamectl chassis server; break;;
+    esac
+  done
+}
+
+# ------------------------------------------------------------------------
+
 createUser () {
   
   # Main Function
@@ -63,14 +75,6 @@ enableReflector () {
 
 setHardwareSettings () {
   
-  select CHASSIS in "Laptop" "Desktop" "Server"; do
-    case $CHASSIS in
-      Laptop ) hostnamectl chassis laptop; break;;
-      Desktop ) hostnamectl chassis desktop; break;;
-      Server ) hostnamectl chassis server; break;;
-    esac
-  done
-
   # Main Function
 
   #--- Add Trim option to SSD
@@ -166,6 +170,7 @@ setUserSettings () {
 
 # ------------------------------------------------------------------------
 
+getVariables
 createUser
 enableUnbound
 enableReflector
