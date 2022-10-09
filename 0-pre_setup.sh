@@ -15,15 +15,5 @@ setPacmanSettings () {
   pacman -Syy
 }
 
-copyArchSetupScript () {
-  cp -r /root/archsetup /mnt/archinstall/root/
-}
-
-startArchinstallScript () {
-  archinstall --no-pkg-lookups --config user_configuration.json
-}
-
 setReflectorSettings
 setPacmanSettings
-copyArchSetupScript
-startArchinstallScript
