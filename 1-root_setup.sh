@@ -2,6 +2,8 @@
 # ------------------------------------------------------------------------
 
 getVariables () {
+  
+  # Get chassis
     select CHASSIS in "Laptop" "Desktop" "Server"; do
     case $CHASSIS in
       Laptop ) hostnamectl chassis laptop; break;;
@@ -9,6 +11,8 @@ getVariables () {
       Server ) hostnamectl chassis server; break;;
     esac
   done
+
+  # Get network type
 }
 
 # ------------------------------------------------------------------------
@@ -129,8 +133,19 @@ setNetworkSettings () {
   # Main Function
 
   #--- Enable Firewalld
-  systemctl enable --now firewalld.service
-  firewall-cmd --zone=home --change-interface=wlan0 --permanent
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    pacman -S --noconfirm firewalld >/dev/null 2>&1
+    systemctl enable --now firewalld.service >/dev/null 2>&1
+    firewall-cmd --zone=home --change-interface=wlan0 --permanent >/dev/null 2>&1
+  elif [ "$(hostnamectl chassis)" == server ] ; then
+    pacman -S --noconfirm ufw >/dev/null 2>&1
+    systemctl enable --now ufw.service >/dev/null 2>&1
+    read -p "SSH port to use: " SSHPORT
+    sed -i -e "s|[# ]*Port 22.*|Port $SSHPORT|g" /etc/ssh/sshd_config
+    ufw limit "$SSHPORT"
+    ufw enable
+  fi
+
   #--- Enable services
   systemctl enable --now systemd-resolved.service
 
