@@ -8,12 +8,20 @@ aur_extra=(gnome-browser-connector jellyfin-media-player)
 # ------------------------------------------------------------------------
 
 installPacmanPackages () {
+
+  # Main Function
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     for package in "${pacman_pkg[@]}"; do
       pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
-  echo "Install Pacman packages: OK"
+
+  # Check function
+  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
+    echo "Install Pacman packages: OK"
+  else
+    echo "Install Pacman packages: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
@@ -64,58 +72,61 @@ setChezMoi () {
 
 setGnomeSettings () {
 
-  # Apply Nautilus settings
-  gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
 
-  # Apply night light settings
-  gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
-  gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
+    # Apply Nautilus settings
+    gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 
-  # Apply date settings
-  gsettings set org.gnome.desktop.interface clock-show-date true
-  gsettings set org.gnome.desktop.interface clock-show-weekday true
-  gsettings set org.gnome.desktop.calendar show-weekdate true
+    # Apply night light settings
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 2680
 
-  # Apply trackpad settings
-  gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
-  gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
-  gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false
-  gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false
-  gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
-  gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-  gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+    # Apply date settings
+    gsettings set org.gnome.desktop.interface clock-show-date true
+    gsettings set org.gnome.desktop.interface clock-show-weekday true
+    gsettings set org.gnome.desktop.calendar show-weekdate true
 
-  # Apply wallpapers
-  gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg'
-  gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg'
+    # Apply trackpad settings
+    gsettings set org.gnome.desktop.peripherals.touchpad click-method 'none'
+    gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+    gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false
+    gsettings set org.gnome.desktop.peripherals.touchpad middle-click-emulation false
+    gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+    gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+    gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
 
-  # Apply icon theme & settings
-  gsettings set org.gnome.desktop.background show-desktop-icons false
-  gsettings set org.gnome.desktop.interface enable-hot-corners false
-  gsettings set org.gnome.desktop.interface icon-theme Papirus
-  gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'telegramdesktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'io.github.TransmissionRemoteGtk.desktop']"
+    # Apply wallpapers
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/adwaita-l.jpg'
+    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/adwaita-d.jpg'
 
-  # Apply fonts settings
-  gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12"
-  gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12"
-  gsettings set org.gnome.desktop.interface monospace-font-name "MesloLGS NF 12"
-  gsettings set org.gnome.desktop.interface font-hinting "medium"
+    # Apply icon theme & settings
+    gsettings set org.gnome.desktop.background show-desktop-icons false
+    gsettings set org.gnome.desktop.interface enable-hot-corners false
+    gsettings set org.gnome.desktop.interface icon-theme Papirus
+    gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'telegramdesktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Calendar.desktop', 'io.github.TransmissionRemoteGtk.desktop']"
 
-  # Apply energy settings
-  powerprofilesctl set power-saver
-  gsettings set org.gnome.desktop.interface show-battery-percentage true
+    # Apply fonts settings
+    gsettings set org.gnome.desktop.interface font-name "Nimbus Sans Regular 12"
+    gsettings set org.gnome.desktop.interface document-font-name "Nimbus Sans Regular 12"
+    gsettings set org.gnome.desktop.interface monospace-font-name "MesloLGS NF 12"
+    gsettings set org.gnome.desktop.interface font-hinting "medium"
 
-  # Apply privacy settings
-  gsettings set org.gnome.desktop.privacy disable-microphone true
-  gsettings set org.gnome.desktop.privacy disable-camera true
+    # Apply energy settings
+    powerprofilesctl set power-saver
+    gsettings set org.gnome.desktop.interface show-battery-percentage true
 
-  # Set audio output to 0%
-  pactl set-sink-mute @DEFAULT_SINK@ toggle
-  pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    # Apply privacy settings
+    gsettings set org.gnome.desktop.privacy disable-microphone true
+    gsettings set org.gnome.desktop.privacy disable-camera true
 
-  # Apply various GNOME settings
-  gsettings set org.gnome.shell.app-switcher current-workspace-only true
-  gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop']"
+    # Set audio output to 0%
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+    # Apply various GNOME settings
+    gsettings set org.gnome.shell.app-switcher current-workspace-only true
+    gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop']"
+  fi
 }
 
 # ------------------------------------------------------------------------
