@@ -80,9 +80,10 @@ setHardwareSettings () {
   
   # Main Function
 
-  #--- Add Trim option to SSD
+  #--- Add Trim option to SSD & install Snapper
   if [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == btrfs ];  then
     sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
+    pacman -S --noconfirm snapper >/dev/null 2>&1
   elif [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == f2fs ]; then
     sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
   fi
