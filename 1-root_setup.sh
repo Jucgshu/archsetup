@@ -46,7 +46,6 @@ enableUnbound () {
 enableReflector () {
 
   # Main function
-  echo "Enable Reflector"
   sed -i -e 's|[# ]*--country[ ]* [ ]*.*|--country France,Germany|g' /etc/xdg/reflector/reflector.conf
   sed -i -e 's|[# ]*--protocol[ ]* [ ]*.*|--protocol https|g' /etc/xdg/reflector/reflector.conf
   sed -i -e 's|[# ]*--latest[ ]* [ ]*.*|--latest 5|g' /etc/xdg/reflector/reflector.conf
@@ -64,8 +63,6 @@ enableReflector () {
 
 setNetworkSettings () {
 
-  echo "Applying network settings"
-
   # Enable Firewalld
   systemctl enable --now firewalld.service
   firewall-cmd --zone=home --change-interface=wlan0 --permanent
@@ -78,7 +75,6 @@ setNetworkSettings () {
 
 setHardwareSettings () {
   
-  echo "Select your computer chassis"
   select chassis in "Laptop" "Desktop" "Server"; do
     case $chassis in
       Laptop ) hostnamectl chassis laptop; break;;
@@ -136,8 +132,6 @@ setHardwareSettings () {
 # ------------------------------------------------------------------------
 
 setUserSettings () {
-
-  echo "Applying user settings"
 
   # Apply Pacman Settings
   sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
