@@ -72,30 +72,37 @@ setHardwareSettings () {
   done
 
   # Main Function
-  #-- Add Trim option to SSD
+
+  #--- Add Trim option to SSD
   if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
     sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
   elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
     sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
   fi
-  #-- Add power savings options to boot
+
+  #--- Add power savings options to boot
   if eval "$(pacman -Qi grub &>/dev/null)"; then
     echo ""
   else
     sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
     echo "timeout 0" >> /boot/loader/loader.conf
   fi
-  #-- Copy Mkinitcpio file
+
+  #--- Copy Mkinitcpio file
   echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
   cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
   mkinitcpio -p linux >/dev/null 2>&1
-  #-- Enable Systemd-Oomd
+
+  #--- Enable Systemd-Oomd
   systemctl enable --now systemd-oomd.service >/dev/null 2>&1
-  #-- Enable building from files in memory
+
+  #--- Enable building from files in memory
   sed -i -e 's|[# ]*BUILDDIR[ ]*=[ ]*.*|BUILDDIR=/tmp/makepkg|g' /etc/makepkg.conf
-  #-- Enable RNG daemon
+
+  #--- Enable RNG daemon
   systemctl enable --now rngd.service >/dev/null 2>&1
-  #-- Apply Laptop specific settings
+  
+  #--- Apply Laptop specific settings
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     #-- Enable CPUPower
     systemctl enable --now cpupower.service >/dev/null 2>&1
@@ -108,7 +115,7 @@ setHardwareSettings () {
   fi
 
   # Check Function
-  
+
 }
 
 # ------------------------------------------------------------------------
@@ -116,10 +123,11 @@ setHardwareSettings () {
 setNetworkSettings () {
 
   # Main Function
-  #-- Enable Firewalld
+
+  #--- Enable Firewalld
   systemctl enable --now firewalld.service
   firewall-cmd --zone=home --change-interface=wlan0 --permanent
-  #-- Enable services
+  #--- Enable services
   systemctl enable --now systemd-resolved.service
 
   # Check Function
@@ -134,23 +142,25 @@ setNetworkSettings () {
 
 setUserSettings () {
 
-  # Apply Pacman Settings
+  # Main Function
+
+  #--- Apply Pacman Settings
   sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
   sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
   cp ./archlinux/pacman-cache-cleanup.hook /usr/share/libalpm/hooks/
   cp ./archlinux/pacman-mirrorlist-cleanup.hook /usr/share/libalpm/hooks/
 
-  # Add members of wheel to /etc/sudoers
+  #--- Add members of wheel to /etc/sudoers
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
   echo "Wheel members have been granted with superpowers"
 
-  # Enable Firefox Wayland
+  #--- Enable Firefox Wayland
   echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
 
-  # Allow user to access a mounted fuse
+  #--- Allow user to access a mounted fuse
   sed -i -e 's|[# ]*user_allow_other|user_allow_other|g' /etc/fuse.conf
 
-  # Copy wallpapers
+  #--- Copy wallpapers
   cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
   }
 
