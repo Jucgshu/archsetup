@@ -23,7 +23,7 @@ setChezMoi () {
 
 installYayPackages () {
   for package in "${aur[@]}"; do
-    yay -S $package --noeditmenu --noconfirm --removemake --cleanafter
+    yay -S "$package" --noeditmenu --noconfirm --removemake --cleanafter
   done
 }
 
@@ -111,7 +111,7 @@ setAppsSettings () {
   echo "Apply other applications settings"
 
   # Create Firefox profile from scratch
-  firefox -CreateProfile $USER
+  firefox -CreateProfile "$USER"
   
   # Copy Firefox prefs.js, generated with https://ffprofile.com/
   cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
@@ -125,10 +125,10 @@ setAppsSettings () {
   cp ./archlinux/mpv/* ~/.config/mpv/
   wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
   wget -NP /tmp/uosc https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip
-  cd /tmp/uosc
+  cd /tmp/uosc || exit
   unzip uosc.zip
   rm uosc.zip
-  cp -Rf * ~/.config/mpv/
+  cp -Rf /tmp/uosc/* ~/.config/mpv/
   # Tweak UOSC
   sed -i -e 's|[# ]*timeline_style[ ]*=[ ]*.*|timeline_style=line|g' ~/.config/mpv/script-opts/uosc.conf
   sed -i -e 's|[# ]*timeline_size_max_fullscreen[ ]*=[ ]*.*|timeline_size_max_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf

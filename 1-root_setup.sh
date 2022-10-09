@@ -5,10 +5,10 @@ createUser () {
   echo "Create main user"
   systemctl enable --now systemd-homed.service
   read -p "User you wish to create" MYUSER
-  if [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == btrfs ];  then
-    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
-  elif [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == f2fs ]; then
-    homectl create $MYUSER --shell=/usr/bin/zsh --member-of=wheel
+  if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
+    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume
+  elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
+    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel
   fi
   sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf
 }
@@ -65,14 +65,14 @@ setHardwareSettings () {
   echo "Applying hardware settings"
 
   # Add Trim option to SSD
-  if [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == btrfs ];  then
+  if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
     sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
-  elif [ $(blkid -o value -s TYPE /dev/nvme0n1p2) == f2fs ]; then
+  elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
     sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
   fi
 
   # Add power savings options to boot
-  if $(pacman -Qi grub &>/dev/null); then
+  if eval "$(pacman -Qi grub &>/dev/null)"; then
     echo ""
   else
     sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
@@ -94,7 +94,7 @@ setHardwareSettings () {
   systemctl enable --now rngd.service
 
   # Apply Laptop specific settings
-  if [ $(hostnamectl chassis) == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
     # Enable CPUPower
     systemctl enable --now cpupower.service
 
