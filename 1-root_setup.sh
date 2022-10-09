@@ -174,7 +174,6 @@ setUserSettings () {
 
   #--- Add members of wheel to /etc/sudoers
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo)
-  echo "Wheel members have been granted with superpowers"
 
   #--- Apply Laptop specific settings
 
@@ -187,6 +186,13 @@ setUserSettings () {
 
     #--- Copy wallpapers
     cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
+  fi
+
+  # Check Function
+  if grep -q "#Color" /etc/pacman.conf && grep -q "#ParallelDownloads" /etc/pacman.conf; then
+    echo "User settings: Error"
+  else
+    echo "User settings: OK"
   fi
   }
 
