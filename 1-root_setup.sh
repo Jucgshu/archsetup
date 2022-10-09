@@ -11,8 +11,7 @@ getVariables () {
       Server ) hostnamectl chassis server; break;;
     esac
   done
-
-  # Get network type
+  
 }
 
 # ------------------------------------------------------------------------
