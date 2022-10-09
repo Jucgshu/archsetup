@@ -3,7 +3,7 @@
 
 createUser () {
   
-  echo "Create main user"
+  # Main Function
   systemctl enable --now systemd-homed.service >/dev/null 2>&1
   read -p "User you wish to create: " MYUSER
   if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
@@ -13,11 +13,19 @@ createUser () {
   fi
   sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf >/dev/null 2>&1
 
+  # Check function
+  if id "$MYUSER" &>/dev/null; then
+    echo 'Create user: OK'
+  else
+    echo 'Create user: Error'
+  fi
 }
 
 # ------------------------------------------------------------------------
 
 enableUnbound () {
+
+  # Main Function
   cp ./archlinux/unbound.conf /etc/unbound/
   cp ./archlinux/roothints.service /etc/systemd/system/
   cp ./archlinux/roothints.timer /etc/systemd/system/
