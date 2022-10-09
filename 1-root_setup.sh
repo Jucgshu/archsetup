@@ -63,58 +63,52 @@ enableReflector () {
 
 setHardwareSettings () {
   
-  select chassis in "Laptop" "Desktop" "Server"; do
-    case $chassis in
+  select CHASSIS in "Laptop" "Desktop" "Server"; do
+    case $CHASSIS in
       Laptop ) hostnamectl chassis laptop; break;;
       Desktop ) hostnamectl chassis desktop; break;;
       Server ) hostnamectl chassis server; break;;
     esac
   done
 
-  echo "Applying hardware settings"
-
-  # Add Trim option to SSD
+  # Main Function
+  #-- Add Trim option to SSD
   if [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == btrfs ];  then
     sed -i 's/ssd,/ssd,discard=async,/g' /etc/fstab
   elif [ "$(blkid -o value -s TYPE /dev/nvme0n1p2)" == f2fs ]; then
     sed -i 's/ssd,/ssd,nodiscard,/g' /etc/fstab
   fi
-
-  # Add power savings options to boot
+  #-- Add power savings options to boot
   if eval "$(pacman -Qi grub &>/dev/null)"; then
     echo ""
   else
     sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
     echo "timeout 0" >> /boot/loader/loader.conf
   fi
-
-  # Copy Mkinitcpio file
+  #-- Copy Mkinitcpio file
   echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
   cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
-  mkinitcpio -p linux
-  
-  # Enable Systemd-Oomd
-  systemctl enable --now systemd-oomd.service
-
-  # Enable building from files in memory
-  sudo sed -i -e 's|[# ]*BUILDDIR[ ]*=[ ]*.*|BUILDDIR=/tmp/makepkg|g' /etc/makepkg.conf
-
-  # Enable RNG daemon
-  systemctl enable --now rngd.service
-
-  # Apply Laptop specific settings
+  mkinitcpio -p linux >/dev/null 2>&1
+  #-- Enable Systemd-Oomd
+  systemctl enable --now systemd-oomd.service >/dev/null 2>&1
+  #-- Enable building from files in memory
+  sed -i -e 's|[# ]*BUILDDIR[ ]*=[ ]*.*|BUILDDIR=/tmp/makepkg|g' /etc/makepkg.conf
+  #-- Enable RNG daemon
+  systemctl enable --now rngd.service >/dev/null 2>&1
+  #-- Apply Laptop specific settings
   if [ "$(hostnamectl chassis)" == laptop ] ; then
-    # Enable CPUPower
-    systemctl enable --now cpupower.service
-
-    # Enable Powertop
+    #-- Enable CPUPower
+    systemctl enable --now cpupower.service >/dev/null 2>&1
+    #-- Enable Powertop
     cp ./archlinux/powertop.service /etc/systemd/system/
-    systemctl enable --now powertop.service
-
-    # Fix buggy lid buggy firmware by delegating lid close event to Systemd
+    systemctl enable --now powertop.service >/dev/null 2>&1
+    #-- Fix buggy lid buggy firmware by delegating lid close event to Systemd
     sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
     sed -i -e 's|[# ]*IgnoreLid[ ]*=[ ]*.*|IgnoreLid=true|g' /etc/UPower/UPower.conf
   fi
+
+  # Check Function
+  
 }
 
 # ------------------------------------------------------------------------
