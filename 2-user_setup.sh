@@ -194,7 +194,7 @@ setAppsSettings () {
 enableOtherServices () {
 
   if [ "$(hostnamectl chassis)" == laptop ] ; then
-    systemctl --user start syncthing.service
+    systemctl --user start syncthing.service >/dev/null 2>&1
   fi
 }
 
