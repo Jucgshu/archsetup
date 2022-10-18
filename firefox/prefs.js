@@ -29,6 +29,7 @@ user_pref("browser.sessionstore.interval", 60000);
 user_pref("browser.sessionstore.privacy_level", 2);
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("browser.tabs.crashReporting.sendReport", false);
+user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.toolbars.bookmarks.visibility", "never");
 user_pref("browser.urlbar.groupLabels.enabled", false);
 user_pref("browser.urlbar.quicksuggest.enabled", false);
