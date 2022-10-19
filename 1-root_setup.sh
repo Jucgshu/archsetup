@@ -153,7 +153,7 @@ setNetworkSettings () {
   fi
 
   #--- Enable services
-  systemctl enable --now systemd-resolved.service
+  systemctl enable --now systemd-resolved.service >/dev/null 2>&1
 
   # Check Function
   if (systemctl is-active --quiet firewalld.service || systemctl is-active --quiet ufw.service) && systemctl is-active --quiet systemd-resolved.service; then
