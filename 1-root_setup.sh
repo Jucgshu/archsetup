@@ -24,7 +24,7 @@ createUser () {
   if [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == btrfs ];  then
     homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=subvolume >/dev/null 2>&1
   elif [ "$(blkid -o value -s TYPE "$(df --output=source / | tail -n +2)")" == f2fs ]; then
-    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel >/dev/null 2>&1
+    homectl create "$MYUSER" --shell=/usr/bin/zsh --member-of=wheel --storage=directory >/dev/null 2>&1
   fi
   sed -i "/WaylandEnable/AutomaticLogin=$MYUSER" /etc/gdm/custom.conf >/dev/null 2>&1
 
