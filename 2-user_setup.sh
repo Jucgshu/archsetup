@@ -62,6 +62,7 @@ installYayPackages () {
     echo "Install AUR packages: OK"
   else
     echo "Install AUR packages: Error"
+  fi
 }
 
 # ------------------------------------------------------------------------
