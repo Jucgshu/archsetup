@@ -90,7 +90,7 @@ setHardwareSettings () {
 
   #--- Add power savings options to boot
   if $(pacman -Qi grub &>/dev/null); then
-    echo ""
+    echo "" >/dev/null 2>&1
   else
     sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
     echo "timeout 0" >> /boot/loader/loader.conf
