@@ -12,7 +12,7 @@ installPacmanPackages () {
   # Main Function
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     for package in "${pacman_pkg[@]}"; do
-      pacman -S "$package" --noconfirm >/dev/null 2>&1
+      sudo pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
 
