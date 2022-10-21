@@ -6,16 +6,6 @@ aur_extra=(gnome-browser-connector jellyfin-media-player)
 
 # ------------------------------------------------------------------------
 
-  # Check function
-  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
-    echo "Install Pacman packages: $(tput setaf 2)OK$(tput sgr 0)"
-  else
-    echo "Install Pacman packages: $(tput setaf 1)Error$(tput sgr 0)"
-  fi
-}
-
-# ------------------------------------------------------------------------
-
 installYay () {
 
   # Main function

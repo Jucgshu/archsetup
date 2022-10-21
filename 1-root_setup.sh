@@ -214,6 +214,13 @@ installPacmanPackages () {
       pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
+
+  # Check function
+  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
+    echo "Install Pacman packages: $(tput setaf 2)OK$(tput sgr 0)"
+  else
+    echo "Install Pacman packages: $(tput setaf 1)Error$(tput sgr 0)"
+  fi
 }
 # ------------------------------------------------------------------------
 
