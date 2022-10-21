@@ -60,7 +60,7 @@ installYayPackages () {
 # ------------------------------------------------------------------------
 
 setChezMoi () {
-  read -p "Enter your Github username" github
+  read -p "Enter your Github username: " github
   chezmoi init https://github.com/$github/dotfiles >/dev/null 2>&1
   chezmoi update >/dev/null 2>&1
 
