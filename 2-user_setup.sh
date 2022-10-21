@@ -1,21 +1,10 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
-pacman_pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox firefox-i18n-fr gimp keepassxc libva-utils mediaelch mpv musescore papirus-icon-theme profile-cleaner simple-scan syncthing telegram-desktop thunderbird thunderbird-i18n-fr transmission-remote-gtk ttf-font-awesome ttf-roboto wol)
 aur_base=(oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k)
 aur_extra=(gnome-browser-connector jellyfin-media-player)
 
 # ------------------------------------------------------------------------
-
-installPacmanPackages () {
-
-  # Main Function
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
-    for package in "${pacman_pkg[@]}"; do
-      echo "Installating '$package'..."
-      sudo pacman -S "$package" --noconfirm >/dev/null 2>&1
-    done
-  fi
 
   # Check function
   if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then

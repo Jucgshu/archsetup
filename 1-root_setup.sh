@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------
 
+pacman_pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox firefox-i18n-fr gimp keepassxc libva-utils mediaelch mpv musescore papirus-icon-theme profile-cleaner simple-scan syncthing telegram-desktop thunderbird thunderbird-i18n-fr transmission-remote-gtk ttf-font-awesome ttf-roboto wol)
+
+# ------------------------------------------------------------------------
+
 getVariables () {
   
   # Get chassis
@@ -201,6 +205,18 @@ setUserSettings () {
 
 # ------------------------------------------------------------------------
 
+installPacmanPackages () {
+
+  # Main Function
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    for package in "${pacman_pkg[@]}"; do
+      echo "Installating '$package'..."
+      pacman -S "$package" --noconfirm >/dev/null 2>&1
+    done
+  fi
+
+# ------------------------------------------------------------------------
+
 getVariables
 createUser
 enableUnbound
@@ -208,3 +224,4 @@ enableReflector
 setNetworkSettings
 setHardwareSettings
 setUserSettings
+installPacmanPackages
