@@ -217,6 +217,10 @@ installPacmanPackages () {
 }
 # ------------------------------------------------------------------------
 
+copyScript () {
+  cp -r /root/archsetup /home/"$MYUSER"
+}
+
 getVariables
 createUser
 enableUnbound
@@ -225,3 +229,4 @@ setNetworkSettings
 setHardwareSettings
 setUserSettings
 installPacmanPackages
+copyScript
