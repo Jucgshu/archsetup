@@ -30,9 +30,9 @@ createUser () {
 
   # Check function
   if id "$MYUSER" &>/dev/null; then
-    echo 'Create user: OK'
+    echo "Create user: $(tput setaf 2)OK"
   else
-    echo 'Create user: Error'
+    echo "Create user: $(tput setaf 1)Error"
   fi
 }
 
@@ -50,9 +50,9 @@ enableUnbound () {
 
   # Check function
   if [[ -f /etc/unbound/unbound.conf && -f /etc/systemd/system/roothints.service && -f /etc/systemd/system/roothints.timer ]] && systemctl is-active --quiet unbound.service && systemctl is-active --quiet roothints.timer; then
-    echo "Enable Unbound: OK"
+    echo "Enable Unbound: $(tput setaf 2)OK"
   else
-    echo "Enable Unbound: Error"
+    echo "Enable Unbound: $(tput setaf 1)Error"
   fi
 }
 
@@ -68,9 +68,9 @@ enableReflector () {
 
   # Check Function
   if grep -q "country France,Germany" /etc/xdg/reflector/reflector.conf && grep -q "protocol https" /etc/xdg/reflector/reflector.conf && grep -q "latest 5" /etc/xdg/reflector/reflector.conf; then
-    echo "Enable Reflector: OK"
+    echo "Enable Reflector: $(tput setaf 2)OK"
   else
-    echo "Enable Reflector: Error"
+    echo "Enable Reflector: $(tput setaf 1)Error"
   fi
 }
 
@@ -126,9 +126,9 @@ setHardwareSettings () {
 
   # Check Function
   if systemctl is-active --quiet systemd-oomd.service && systemctl is-active --quiet rngd.service; then
-    echo "Hardware settings: OK"
+    echo "Hardware settings: $(tput setaf 2)OK"
   else
-    echo "Hardware settings: Error"
+    echo "Hardware settings: $(tput setaf 1)Error"
   fi
 }
 
@@ -157,9 +157,9 @@ setNetworkSettings () {
 
   # Check Function
   if (systemctl is-active --quiet firewalld.service || systemctl is-active --quiet ufw.service) && systemctl is-active --quiet systemd-resolved.service; then
-    echo "Set network settings: OK"
+    echo "Set network settings: $(tput setaf 2)OK"
   else
-    echo "Set network settings: Error"
+    echo "Set network settings: $(tput setaf 1)Error"
   fi
 }
 
@@ -193,9 +193,9 @@ setUserSettings () {
 
   # Check Function
   if grep -q "#Color" /etc/pacman.conf && grep -q "#ParallelDownloads" /etc/pacman.conf; then
-    echo "User settings: Error"
+    echo "User settings: $(tput setaf 1)Error"
   else
-    echo "User settings: OK"
+    echo "User settings: $(tput setaf 2)OK"
   fi
   }
 

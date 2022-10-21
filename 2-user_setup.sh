@@ -19,9 +19,9 @@ installPacmanPackages () {
 
   # Check function
   if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
-    echo "Install Pacman packages: OK"
+    echo "Install Pacman packages: $(tput setaf 2)OK"
   else
-    echo "Install Pacman packages: Error"
+    echo "Install Pacman packages: $(tput setaf 1)Error"
   fi
 }
 
@@ -36,9 +36,9 @@ installYay () {
 
   # Check function
   if $(pacman -Qi yay &>/dev/null); then
-    echo "Install Yay: OK"
+    echo "Install Yay: $(tput setaf 2)OK"
   else
-    echo "Install Yay: Error"
+    echo "Install Yay: $(tput setaf 1)Error"
   fi
 }
 
@@ -62,9 +62,9 @@ installYayPackages () {
 
   # Check function
   if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
-    echo "Install AUR packages: OK"
+    echo "Install AUR packages: $(tput setaf 2)OK"
   else
-    echo "Install AUR packages: Error"
+    echo "Install AUR packages: $(tput setaf 1)Error"
   fi
 }
 
@@ -75,7 +75,7 @@ setChezMoi () {
   chezmoi init https://github.com/$github/dotfiles >/dev/null 2>&1
   chezmoi update >/dev/null 2>&1
 
-  echo "Set chezmoi: OK"
+  echo "Set chezmoi: $(tput setaf 2)OK"
 }
 
 # ------------------------------------------------------------------------
