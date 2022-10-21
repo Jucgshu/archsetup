@@ -214,7 +214,7 @@ installPacmanPackages () {
       pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
-
+}
 # ------------------------------------------------------------------------
 
 getVariables
