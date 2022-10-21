@@ -136,6 +136,9 @@ setGnomeSettings () {
     # Apply various GNOME settings
     gsettings set org.gnome.shell.app-switcher current-workspace-only true
     gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop']"
+
+    echo "GNOME settings applied"
+    
   fi
 }
 
