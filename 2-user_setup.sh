@@ -231,7 +231,6 @@ finalize () {
 
 # ------------------------------------------------------------------------
 
-installPacmanPackages
 installYay
 installYayPackages
 setChezMoi
