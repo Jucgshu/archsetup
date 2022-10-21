@@ -138,7 +138,7 @@ setGnomeSettings () {
     gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Epiphany.desktop']"
 
     echo "GNOME settings applied"
-    
+
   fi
 }
 
@@ -159,6 +159,9 @@ setGnomeExtensions () {
     gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip >/dev/null 2>&1
     gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
     cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+
+    echo "GNOME extensions installed"
+
   fi
 }
 
@@ -193,6 +196,9 @@ setAppsSettings () {
     sed -i -e 's|[# ]*timeline_style[ ]*=[ ]*.*|timeline_style=line|g' ~/.config/mpv/script-opts/uosc.conf
     sed -i -e 's|[# ]*timeline_size_max_fullscreen[ ]*=[ ]*.*|timeline_size_max_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
     sed -i -e 's|[# ]*volume_size_fullscreen[ ]*=[ ]*.*|volume_size_fullscreen=40|g' ~/.config/mpv/script-opts/uosc.conf
+
+    echo "Firefox, MPV & UOSC installed"
+
   fi
 }
 
@@ -202,14 +208,13 @@ enableOtherServices () {
 
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     systemctl --user start syncthing.service >/dev/null 2>&1
+    echo "Other services enabled"
   fi
 }
 
 # ------------------------------------------------------------------------
 
 setNetworkSettings () {
-
-  echo "Enable mDNS, disable IPv6 & Switching DNS to Unbound"
   
   nmcli -g name,type connection  show  --active | awk -F: '/ethernet|wireless/ { print $1 }' | while read connection
   do
@@ -219,6 +224,9 @@ setNetworkSettings () {
     nmcli connection modify "$connection" ipv4.dns "127.0.0.1"
     nmcli connection up "$connection"
   done
+
+  echo "mDNS enabled, IPv6 disabled & Unbound set to default DNS provider"
+
 }
 
 # ------------------------------------------------------------------------
