@@ -12,6 +12,7 @@ installPacmanPackages () {
   # Main Function
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     for package in "${pacman_pkg[@]}"; do
+      echo "Installating '$package'..."
       sudo pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
@@ -47,12 +48,14 @@ installYayPackages () {
 
   # Install common AUR packages
   for package in "${aur_base[@]}"; do
+    echo "Installating '$package'..."
     yay -S "$package" --noeditmenu --noconfirm --removemake --cleanafter >/dev/null 2>&1
   done
 
   # Install AUR packages for laptop
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     for package in "${aur_extra[@]}"; do
+      echo "Installating '$package'..."
       yay -S "$package" --noeditmenu --noconfirm --removemake --cleanafter >/dev/null 2>&1
     done
   fi
