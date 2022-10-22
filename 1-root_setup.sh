@@ -8,11 +8,12 @@ pacman_pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox
 getVariables () {
   
   # Get chassis
-    select CHASSIS in "Laptop" "Desktop" "Server"; do
+    select CHASSIS in "Laptop" "Desktop" "Server" "Virtual Machine"; do
     case $CHASSIS in
       Laptop ) hostnamectl chassis laptop; break;;
       Desktop ) hostnamectl chassis desktop; break;;
       Server ) hostnamectl chassis server; break;;
+      Virtual\ Machine ) hostnamectl chassis vm; break;;
     esac
   done
   
@@ -101,9 +102,11 @@ setHardwareSettings () {
   fi
 
   #--- Copy Mkinitcpio file
-  echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
-  cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
-  mkinitcpio -p linux >/dev/null 2>&1
+  if [ "$(hostnamectl chassis)" == laptop ] ; then
+    echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
+    cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
+    mkinitcpio -p linux >/dev/null 2>&1
+  fi
 
   #--- Enable Systemd-Oomd
   systemctl enable --now systemd-oomd.service >/dev/null 2>&1
@@ -143,7 +146,7 @@ setNetworkSettings () {
   # Main Function
 
   #--- Enable Firewalld
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
     pacman -S --noconfirm firewalld >/dev/null 2>&1
     systemctl enable --now firewalld.service >/dev/null 2>&1
     firewall-cmd --zone=home --change-interface=wlan0 --permanent >/dev/null 2>&1
@@ -184,7 +187,7 @@ setUserSettings () {
 
   #--- Apply Laptop specific settings
 
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
     #--- Enable Firefox Wayland
     echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
 
@@ -208,7 +211,7 @@ setUserSettings () {
 installPacmanPackages () {
 
   # Main Function
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
     for package in "${pacman_pkg[@]}"; do
       echo "Installating '$package'..."
       pacman -S "$package" --noconfirm >/dev/null 2>&1
@@ -216,7 +219,7 @@ installPacmanPackages () {
   fi
 
   # Check function
-  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] && pacman -Qi "$package" &>/dev/null; then
     echo "Install Pacman packages: $(tput setaf 2)OK$(tput sgr 0)"
   else
     echo "Install Pacman packages: $(tput setaf 1)Error$(tput sgr 0)"

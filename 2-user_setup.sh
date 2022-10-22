@@ -61,7 +61,7 @@ setChezMoi () {
 
 setGnomeSettings () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
 
     # Apply Nautilus settings
     gsettings set org.gtk.Settings.FileChooser sort-directories-first true
@@ -125,19 +125,19 @@ setGnomeSettings () {
 
 setGnomeExtensions () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
 
     # Install ddterm
     wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
     gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
     gnome-extensions enable ddterm@amezin.github.com >/dev/null 2>&1
-    cp -rf ./gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
+    cp -rf "${0%/*}"/gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
 
     # Install Arch-update
     wget -NP /tmp/arch-update https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip >/dev/null 2>&1
     gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip >/dev/null 2>&1
     gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
-    cp -rf ./gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+    cp -rf "${0%/*}"/gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
 
     echo "GNOME extensions installed"
 
@@ -148,7 +148,7 @@ setGnomeExtensions () {
 
 setAppsSettings () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
 
     # Create Firefox profile from scratch
     firefox -CreateProfile "$USER"
