@@ -228,7 +228,7 @@ installPacmanPackages () {
 # ------------------------------------------------------------------------
 
 copyScript () {
-  cp -r /root/archsetup /home/"$MYUSER"
+  cp -r /root/archsetup /home/"$MYUSER"/
 }
 
 getVariables
