@@ -213,7 +213,7 @@ installPacmanPackages () {
   # Main Function
   if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
     for package in "${pacman_pkg[@]}"; do
-      echo "Installating '$package'..."
+      echo "Installing '$package'..."
       pacman -S "$package" --noconfirm >/dev/null 2>&1
     done
   fi
