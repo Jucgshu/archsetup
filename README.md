@@ -22,9 +22,13 @@ Once the repo has been cloned or copied , you can start the Archlinux installati
     `# .2-user_setup.sh`
 
 See Archlinux wiki for details:
+* [Systemd](https://wiki.archlinux.org/title/Systemd)
 * [Systemd-boot](https://wiki.archlinux.org/title/Systemd-boot)
+* [Systemd-networkd](https://wiki.archlinux.org/title/Systemd-networkd)
 * [Systemd-homed](https://wiki.archlinux.org/title/Systemd-homed)
+* [Unbound](https://wiki.archlinux.org/title/Unbound)
 * [Users and groups](https://wiki.archlinux.org/title/Users_and_groups)
 * [Btrfs](https://wiki.archlinux.org/title/Btrfs)
+* [F2FS](https://wiki.archlinux.org/title/F2FS)
 * [GNOME](https://wiki.archlinux.org/title/Gnome)
 * [Firefox](https://wiki.archlinux.org/title/Firefox)
