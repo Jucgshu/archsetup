@@ -4,6 +4,9 @@
 aur_base=(oh-my-zsh-git ttf-meslo-nerd-font-powerlevel10k)
 aur_extra=(gnome-browser-connector jellyfin-media-player)
 
+# Get script directory
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
 # ------------------------------------------------------------------------
 
 installYay () {
@@ -154,15 +157,15 @@ setAppsSettings () {
     firefox -CreateProfile "$USER"
   
     # Copy Firefox prefs.js, generated with https://ffprofile.com/
-    cp ./firefox/prefs.js ~/.mozilla/firefox/*.$USER
+    cp "$SCRIPT_DIR"/firefox/prefs.js ~/.mozilla/firefox/*.$USER
   
     # Move Firefox cache to RAM
     sed -i "s/<id>/$(id -u)/g" prefs.js
-    cp ./firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
+    cp "$SCRIPT_DIR"/firefox/search.json.mozlz4 ~/.mozilla/firefox/*.$USER
 
     # Copy Mpv config files
     mkdir ~/.config/mpv
-    cp ./archlinux/mpv/* ~/.config/mpv/
+    cp "$SCRIPT_DIR"/archlinux/mpv/* ~/.config/mpv/
 
     # Download and configure UOSC
     wget -NP ~/.config/mpv/script-opts https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf >/dev/null 2>&1

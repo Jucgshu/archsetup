@@ -8,7 +8,7 @@ pacman_pkg=(acpi audacity awesome-terminal-fonts calibre element-desktop firefox
 getVariables () {
   
   # Get chassis
-    select CHASSIS in "Laptop" "Desktop" "Server" "Virtual Machine"; do
+  select CHASSIS in "Laptop" "Desktop" "Server" "Virtual Machine"; do
     case $CHASSIS in
       Laptop ) hostnamectl chassis laptop; break;;
       Desktop ) hostnamectl chassis desktop; break;;
@@ -16,6 +16,9 @@ getVariables () {
       Virtual\ Machine ) hostnamectl chassis vm; break;;
     esac
   done
+
+  # Get script directory
+  SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
   
 }
 
@@ -46,9 +49,9 @@ createUser () {
 enableUnbound () {
 
   # Main Function
-  cp ./archlinux/unbound.conf /etc/unbound/
-  cp ./archlinux/roothints.service /etc/systemd/system/
-  cp ./archlinux/roothints.timer /etc/systemd/system/
+  cp "$SCRIPT_DIR"/archlinux/unbound.conf /etc/unbound/
+  cp "$SCRIPT_DIR"/archlinux/roothints.service /etc/systemd/system/
+  cp "$SCRIPT_DIR"/archlinux/roothints.timer /etc/systemd/system/
   curl --output /etc/unbound/root.hints https://www.internic.net/domain/named.cache >/dev/null 2>&1
   systemctl enable --now roothints.timer >/dev/null 2>&1
   systemctl enable --now unbound.service >/dev/null 2>&1
@@ -104,7 +107,7 @@ setHardwareSettings () {
   #--- Copy Mkinitcpio file
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
-    cp ./archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
+    cp "$SCRIPT_DIR"/archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
     mkinitcpio -p linux >/dev/null 2>&1
   fi
 
@@ -124,7 +127,7 @@ setHardwareSettings () {
     systemctl enable --now cpupower.service >/dev/null 2>&1
     #-- Enable Powertop
     pacman -S --noconfirm powertop >/dev/null 2>&1
-    cp ./archlinux/powertop.service /etc/systemd/system/
+    cp "$SCRIPT_DIR"/archlinux/powertop.service /etc/systemd/system/
     systemctl enable --now powertop.service >/dev/null 2>&1
     #-- Fix buggy lid buggy firmware by delegating lid close event to Systemd
     sed -i -e 's|[# ]*HandleLidSwitch[ ]*=[ ]*.*|HandleLidSwitch=suspend|g' /etc/systemd/logind.conf
@@ -179,8 +182,8 @@ setUserSettings () {
   #--- Apply Pacman Settings
   sed -i -e 's|[# ]*Color.*|Color|g' /etc/pacman.conf
   sed -i -e 's|[# ]*ParallelDownloads[ ]* = [ ]*.*|ParallelDownloads = 5|g' /etc/pacman.conf
-  cp ./archlinux/pacman-cache-cleanup.hook /usr/share/libalpm/hooks/
-  cp ./archlinux/pacman-mirrorlist-cleanup.hook /usr/share/libalpm/hooks/
+  cp "$SCRIPT_DIR"/archlinux/pacman-cache-cleanup.hook /usr/share/libalpm/hooks/
+  cp "$SCRIPT_DIR"/archlinux/pacman-mirrorlist-cleanup.hook /usr/share/libalpm/hooks/
 
   #--- Add members of wheel to /etc/sudoers
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) >/dev/null 2>&1
@@ -195,7 +198,7 @@ setUserSettings () {
     sed -i -e 's|[# ]*user_allow_other|user_allow_other|g' /etc/fuse.conf
 
     #--- Copy wallpapers
-    cp ./img/adwaita*.jpg /usr/share/backgrounds/gnome/
+    cp "$SCRIPT_DIR"/img/adwaita*.jpg /usr/share/backgrounds/gnome/
   fi
 
   # Check Function
