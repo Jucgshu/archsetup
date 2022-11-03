@@ -133,14 +133,17 @@ setGnomeExtensions () {
     # Install ddterm
     wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
     gnome-extensions install -f /tmp/ddterm/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
-    gnome-extensions enable ddterm@amezin.github.com >/dev/null 2>&1
     cp -rf "${0%/*}"/gnome/com.github.amezin.ddterm.gschema.xml ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/schemas
 
     # Install Arch-update
     wget -NP /tmp/arch-update https://github.com/RaphaelRochet/arch-update/releases/latest/download/arch-update@RaphaelRochet.zip >/dev/null 2>&1
     gnome-extensions install -f /tmp/arch-update/arch-update@RaphaelRochet.zip >/dev/null 2>&1
-    gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
     cp -rf "${0%/*}"/gnome/org.gnome.shell.extensions.arch-update.gschema.xml ~/.local/share/gnome-shell/extensions/arch-update@RaphaelRochet/schemas
+
+    # Enable extensions
+    sudo systemctl restart gdm.service &&
+    gnome-extensions enable ddterm@amezin.github.com >/dev/null 2>&1
+    gnome-extensions enable arch-update@RaphaelRochet >/dev/null 2>&1
 
     echo "GNOME extensions installed"
 
@@ -228,8 +231,8 @@ installYay
 installYayPackages
 setChezMoi
 setGnomeSettings
-setGnomeExtensions
 setAppsSettings
 enableOtherServices
 setNetworkSettings
+setGnomeExtensions
 finalize
