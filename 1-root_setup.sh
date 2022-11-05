@@ -100,7 +100,7 @@ setHardwareSettings () {
   if $(pacman -Qi grub &>/dev/null); then
     echo "" >/dev/null 2>&1
   else
-    sed -i '$s/$/i915.enable_psr=2/' /boot/loader/entries/*linux.conf
+    sed -i '$s/$/i915.enable_psr=2 quiet loglevel=3 systemd.show_status=auto rd.udev.log_level=3/' /boot/loader/entries/*linux.conf
     echo "timeout 0" >> /boot/loader/loader.conf
   fi
 
@@ -108,6 +108,8 @@ setHardwareSettings () {
   if [ "$(hostnamectl chassis)" == laptop ] ; then
     echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
     cp "$SCRIPT_DIR"/archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
+    # Hide fsck messages during boot
+    sed -i '/^TimeoutSec=.*/i StandardOutput=null\nStandardError=journal+console' /usr/lib/systemd/system/systemd-fsck-root.service
     mkinitcpio -p linux >/dev/null 2>&1
   fi
 
