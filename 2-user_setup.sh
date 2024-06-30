@@ -43,7 +43,7 @@ installYayPackages () {
   fi
 
   # Check function
-  if [ "$(hostnamectl chassis)" == laptop ] && pacman -Qi "$package" &>/dev/null; then
+  if { [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ]; } && pacman -Qi "$package" &>/dev/null; then
     echo "AUR packages installation: $(tput setaf 2)OK$(tput sgr 0)"
   else
     echo "AUR packages installation: $(tput setaf 1)Error$(tput sgr 0)"
@@ -64,7 +64,7 @@ setChezMoi () {
 
 setGnomeSettings () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ] ; then
 
     # Apply Nautilus settings
     gsettings set org.gtk.Settings.FileChooser sort-directories-first true
@@ -128,7 +128,7 @@ setGnomeSettings () {
 
 setGnomeExtensions () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ]; then
 
     # Install ddterm
     wget -NP /tmp/ddterm https://github.com/ddterm/gnome-shell-extension-ddterm/releases/latest/download/ddterm@amezin.github.com.shell-extension.zip >/dev/null 2>&1
@@ -154,7 +154,7 @@ setGnomeExtensions () {
 
 setAppsSettings () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ]; then
 
     # Create Firefox profile from scratch
     firefox -CreateProfile "$USER"
@@ -191,7 +191,7 @@ setAppsSettings () {
 
 enableOtherServices () {
 
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == desktop ] ; then
     systemctl --user start syncthing.service >/dev/null 2>&1
     echo "Other services enabled"
   fi
