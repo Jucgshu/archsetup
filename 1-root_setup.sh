@@ -105,7 +105,7 @@ setHardwareSettings () {
   fi
 
   #--- Copy Mkinitcpio file
-  if [ "$(hostnamectl chassis)" == laptop ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] ; then
     echo "blacklist psmouse" > /etc/modprobe.d/modprobe.conf
     cp "$SCRIPT_DIR"/archlinux/mkinitcpio.conf /etc/mkinitcpio.conf
     # Hide fsck messages during boot
@@ -151,7 +151,7 @@ setNetworkSettings () {
   # Main Function
 
   #--- Enable Firewalld
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ] ; then
     pacman -S --noconfirm firewalld >/dev/null 2>&1
     systemctl enable --now firewalld.service >/dev/null 2>&1
     firewall-cmd --zone=home --change-interface=wlan0 --permanent >/dev/null 2>&1
@@ -190,9 +190,9 @@ setUserSettings () {
   #--- Add members of wheel to /etc/sudoers
   echo "%wheel ALL=(ALL:ALL) ALL" | (EDITOR="tee -a" visudo) >/dev/null 2>&1
 
-  #--- Apply Laptop specific settings
+  #--- Apply Desktop specific settings
 
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] ; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ] ; then
     #--- Enable Firefox Wayland
     echo "MOZ_ENABLE_WAYLAND=1 firefox" >> /etc/environment
 
@@ -216,7 +216,7 @@ setUserSettings () {
 installPacmanPackages () {
 
   # Main Function
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ]; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ]; then
     for package in "${pacman_pkg[@]}"; do
       echo "Installing '$package'..."
       pacman -S "$package" --noconfirm >/dev/null 2>&1
@@ -224,7 +224,7 @@ installPacmanPackages () {
   fi
 
   # Check function
-  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == vm ] && pacman -Qi "$package" &>/dev/null; then
+  if [ "$(hostnamectl chassis)" == laptop ] || [ "$(hostnamectl chassis)" == desktop ] || [ "$(hostnamectl chassis)" == vm ] && pacman -Qi "$package" &>/dev/null; then
     echo "Install Pacman packages: $(tput setaf 2)OK$(tput sgr 0)"
   else
     echo "Install Pacman packages: $(tput setaf 1)Error$(tput sgr 0)"
